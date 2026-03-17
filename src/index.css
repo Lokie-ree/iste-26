@@ -38,6 +38,19 @@
     --sidebar-accent-foreground: oklch(0.205 0 0);
     --sidebar-border: oklch(0.922 0 0);
     --sidebar-ring: oklch(0.708 0 0);
+
+    /* Lab guide (creative-lab) palette — light mode */
+    --lab-bg: #fbf7f0;
+    --lab-surface: #ffffff;
+    --lab-surface-hi: #f3eee4;
+    --lab-border: #e7e0d6;
+    --lab-text: #4a433a;
+    --lab-text-dim: #7a7266;
+    --lab-accent: #2f8f4e;
+    --lab-accent-dim: color-mix(in srgb, var(--lab-accent) 22%, transparent);
+    --lab-white: #1e1d1c;
+    --lab-danger: #b85454;
+    --lab-info: #2b6ea1;
 }
 
 .dark {
@@ -72,6 +85,19 @@
     --sidebar-accent-foreground: oklch(0.985 0 0);
     --sidebar-border: oklch(1 0 0 / 10%);
     --sidebar-ring: oklch(0.556 0 0);
+
+    /* Lab guide (creative-lab) palette — dark mode (original vibe) */
+    --lab-bg: #1e1d1c;
+    --lab-surface: #252422;
+    --lab-surface-hi: #2e2c28;
+    --lab-border: #2e2c28;
+    --lab-text: #b8b0a4;
+    --lab-text-dim: #7a746a;
+    --lab-accent: #7cc87c;
+    --lab-accent-dim: rgba(124, 200, 124, 0.22);
+    --lab-white: #e8e2da;
+    --lab-danger: #c87c7c;
+    --lab-info: #7caac8;
 }
 
 @theme inline {
