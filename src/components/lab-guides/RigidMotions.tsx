@@ -1,154 +1,82 @@
 import React, { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { Badge as ShadcnBadge } from "@/components/ui/badge";
+import { labTokens } from "@/lib/labTokens";
+import { Badge, DotGrid, ProgressDots, PromptBox, ScoredLine, SectionLabel, WriteLines } from "@/components/lab-guides/labPrimitives";
 
-const T = {
-  // Theme-driven tokens (light/dark via CSS vars)
-  bg: "var(--lab-bg)",
-  surface: "var(--lab-surface)",
-  surfaceHi: "var(--lab-surface-hi)",
-  border: "var(--lab-border)",
-  text: "var(--lab-text)",
-  textDim: "var(--lab-text-dim)",
-  accent: "var(--lab-accent)",
-  accentDim: "var(--lab-accent-dim)",
-  white: "var(--lab-white)",
-  danger: "var(--lab-danger)",
-  info: "var(--lab-info)",
-};
-
-function ProgressDots({
-  total,
-  current,
-  label,
-}: { total: number; current: number; label?: string }) {
-  return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6, padding: "16px 0 8px" }}>
-      <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-        {Array.from({ length: total }, (_, i) => (
-          <div key={i} style={{
-            width: i === current ? 14 : 8, height: i === current ? 14 : 8, borderRadius: "50%",
-            background: i < current ? T.accent : i === current ? T.accent : "transparent",
-            border: i === current ? `2px solid ${T.accent}` : i < current ? "none" : `1px solid ${T.textDim}`,
-            boxShadow: i === current ? `0 0 8px ${T.accentDim}` : "none", transition: "all 0.3s ease",
-          }} />
-        ))}
-      </div>
-      {label && <span style={{ fontFamily: "monospace", fontSize: 9, color: T.surfaceHi, letterSpacing: "0.15em", textTransform: "uppercase" }}>{label}</span>}
-    </div>
-  );
-}
-
-function ScoredLine() {
-  return <Separator className="my-2 bg-border" />;
-}
-
-function SectionLabel({
-  children,
-  color,
-}: { children: React.ReactNode; color?: string }) {
-  return <span style={{ fontFamily: "monospace", fontSize: 9, color: color || T.textDim, letterSpacing: "0.2em", textTransform: "uppercase" }}>{children}</span>;
-}
-function Badge({
-  children,
-  color,
-}: { children: React.ReactNode; color?: string }) {
-  const resolved = color ?? T.accent;
-  return (
-    <ShadcnBadge
-      variant="outline"
-      className="font-mono text-[11px] px-2 py-0.5 rounded-sm border-transparent"
-      style={{
-        color: resolved,
-        background: T.accentDim,
-      }}
-    >
-      {children}
-    </ShadcnBadge>
-  );
-}
-function PromptBox({ children }: { children: React.ReactNode }) {
-  return <div style={{ background: T.surface, borderRadius: 4, padding: "8px 12px", margin: "8px 0" }}><span style={{ fontFamily: "sans-serif", fontSize: 13, color: T.white }}>{children}</span></div>;
-}
-function DotGrid({ height = 120 }: { height?: number }) {
-  const dots = [];
-  const spacing = 16; const cols = 22; const rows = Math.floor(height / spacing);
-  for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++)
-    dots.push(<circle key={`${r}-${c}`} cx={10 + c * spacing} cy={10 + r * spacing} r={1} fill={T.textDim} opacity={0.5} />);
-  return (
-    <div style={{ background: T.surface, borderRadius: 4, padding: 4, margin: "6px 0" }}>
-      <svg width="100%" height={height} viewBox={`0 0 ${10 + cols * spacing} ${10 + rows * spacing}`}>{dots}</svg>
-      <div style={{ fontFamily: "sans-serif", fontSize: 9, color: T.surfaceHi, padding: "0 8px 4px", letterSpacing: "0.1em", textTransform: "uppercase" }}>sketch your prediction</div>
-    </div>
-  );
-}
-function WriteLines({ count = 3 }: { count?: number }) {
-  return <div style={{ padding: "4px 8px" }}>{Array.from({ length: count }, (_, i) => <div key={i} style={{ borderBottom: `1px solid ${T.border}`, height: 22 }} />)}</div>;
-}
+const T = labTokens;
 
 // ── PAGES ─────────────────────────────────────────────────────
 
 function Cover() {
   return (
-    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: 32, textAlign: "center" }}>
+    <div className="min-h-screen flex flex-col items-center justify-center p-8 text-center">
       <SectionLabel>Lab Guide</SectionLabel>
-      <ScoredLine />
-      <h1 style={{ fontFamily: "sans-serif", fontSize: 28, fontWeight: 700, color: T.white, margin: "24px 0 4px", lineHeight: 1.2 }}>Rigid Motions</h1>
-      <h1 style={{ fontFamily: "sans-serif", fontSize: 28, fontWeight: 700, color: T.white, margin: "0 0 16px", lineHeight: 1.2 }}>& Congruence</h1>
-      <p style={{ fontFamily: "sans-serif", fontSize: 14, color: T.text, margin: "0 0 4px" }}>Grade 8 Mathematics</p>
-      <p style={{ fontFamily: "sans-serif", fontSize: 12, color: T.textDim }}>IVLA STEM Club</p>
-      <div style={{ display: "flex", gap: 8, margin: "24px 0", flexWrap: "wrap", justifyContent: "center" }}>
+      <ScoredLine mode="theme" />
+      <h1 className="font-sans text-[28px] font-bold text-[var(--lab-white)] mt-[24px] mb-[4px] leading-[1.2]">Rigid Motions</h1>
+      <h1 className="font-sans text-[28px] font-bold text-[var(--lab-white)] mb-[16px] leading-[1.2]">& Congruence</h1>
+      <p className="font-sans text-[14px] text-[var(--lab-text)] mb-[4px]">Grade 8 Mathematics</p>
+      <p className="font-sans text-[12px] text-[var(--lab-text-dim)]">IVLA STEM Club</p>
+      <div className="flex flex-wrap justify-center gap-2 my-[24px]">
         <Badge>8.G.A.1</Badge><Badge>8.G.A.2</Badge><Badge>8.G.A.3</Badge>
       </div>
-      <ScoredLine />
-      <p style={{ fontFamily: "sans-serif", fontSize: 15, color: T.accent, fontStyle: "italic", margin: "16px 0", maxWidth: 320 }}>
+      <ScoredLine mode="theme" />
+      <p className="font-sans text-[15px] italic text-[var(--lab-accent)] my-[16px] max-w-[320px]">
         "What stays the same when a shape moves?"
       </p>
-      <ScoredLine />
-      <p style={{ fontFamily: "monospace", fontSize: 11, color: T.textDim, marginTop: 24 }}>creative-lab-five.vercel.app</p>
+      <ScoredLine mode="theme" />
+      <p className="font-mono text-[11px] text-[var(--lab-text-dim)] mt-[24px]">creative-lab-five.vercel.app</p>
     </div>
   );
 }
 
 function StandardsPage() {
   return (
-    <div style={{ padding: "24px 20px" }}>
+    <div className="px-[20px] py-[24px]">
       <SectionLabel>Teacher Section</SectionLabel>
-      <h2 style={{ fontFamily: "sans-serif", fontSize: 16, fontWeight: 700, color: T.accent, textTransform: "uppercase", letterSpacing: "0.05em", margin: "12px 0 4px" }}>Standards Alignment</h2>
-      <ScoredLine />
+      <h2 className="font-sans text-[16px] font-bold uppercase tracking-[0.05em] text-[var(--lab-accent)] mt-[12px] mb-[4px]">
+        Standards Alignment
+      </h2>
+      <ScoredLine mode="theme" />
       {[
         { code: "8.G.A.1", desc: "Verify experimentally the properties of rotations, reflections, and translations: lines are taken to lines, angle measures are preserved, parallel lines are taken to parallel lines." },
         { code: "8.G.A.2", desc: "Understand that a two-dimensional figure is congruent to another if the second can be obtained from the first by a sequence of rotations, reflections, and translations; given two congruent figures, describe a sequence that exhibits the congruence." },
         { code: "8.G.A.3", desc: "Describe the effect of dilations, translations, rotations, and reflections on two-dimensional figures using coordinates. Rotations are only about the origin; reflections are only over the x-axis and y-axis in Grade 8." },
       ].map(({ code, desc }) => (
-        <div key={code} style={{ margin: "12px 0" }}>
-          <span style={{ fontFamily: "monospace", fontSize: 13, color: T.accent }}>{code}</span>
-          <p style={{ fontFamily: "sans-serif", fontSize: 12, color: T.text, margin: "4px 0 0 8px", lineHeight: 1.5 }}>{desc}</p>
+        <div key={code} className="my-[12px]">
+          <span className="font-mono text-[13px] text-[var(--lab-accent)]">{code}</span>
+          <p className="font-sans text-[12px] text-[var(--lab-text)] mt-[4px] ml-[8px] leading-[1.5]">
+            {desc}
+          </p>
         </div>
       ))}
-      <ScoredLine />
+      <ScoredLine mode="theme" />
       <SectionLabel>Rigor Components</SectionLabel>
-      <div style={{ margin: "10px 0" }}>
-        <p style={{ fontFamily: "sans-serif", fontSize: 12, fontWeight: 600, color: T.white, margin: "8px 0 2px" }}>Conceptual Understanding</p>
-        <p style={{ fontFamily: "sans-serif", fontSize: 11, color: T.text, margin: "0 0 0 8px", lineHeight: 1.4 }}>Students understand why distances and angles are preserved under rigid motions — not just that they are.</p>
-        <p style={{ fontFamily: "sans-serif", fontSize: 12, fontWeight: 600, color: T.white, margin: "10px 0 2px" }}>Procedural Skill</p>
-        <p style={{ fontFamily: "sans-serif", fontSize: 11, color: T.text, margin: "0 0 0 8px", lineHeight: 1.4 }}>Students apply coordinate rules for translations, reflections, and rotations after demonstrating spatial mastery.</p>
-        <p style={{ fontFamily: "sans-serif", fontSize: 12, fontWeight: 600, color: T.white, margin: "10px 0 2px" }}>Application</p>
-        <p style={{ fontFamily: "sans-serif", fontSize: 11, color: T.text, margin: "0 0 0 8px", lineHeight: 1.4 }}>Students formulate predictions, test against visual feedback, and justify congruence by describing transformation sequences — a modeling and validation cycle.</p>
+      <div className="my-[10px]">
+        <p className="font-sans text-[12px] font-semibold text-[var(--lab-white)] mt-[8px] mb-[2px]">Conceptual Understanding</p>
+        <p className="font-sans text-[11px] text-[var(--lab-text)] ml-[8px] leading-[1.4]">
+          Students understand why distances and angles are preserved under rigid motions — not just that they are.
+        </p>
+        <p className="font-sans text-[12px] font-semibold text-[var(--lab-white)] mt-[10px] mb-[2px]">Procedural Skill</p>
+        <p className="font-sans text-[11px] text-[var(--lab-text)] ml-[8px] leading-[1.4]">
+          Students apply coordinate rules for translations, reflections, and rotations after demonstrating spatial mastery.
+        </p>
+        <p className="font-sans text-[12px] font-semibold text-[var(--lab-white)] mt-[10px] mb-[2px]">Application</p>
+        <p className="font-sans text-[11px] text-[var(--lab-text)] ml-[8px] leading-[1.4]">
+          Students formulate predictions, test against visual feedback, and justify congruence by describing transformation sequences — a modeling and validation cycle.
+        </p>
       </div>
-      <ScoredLine />
+      <ScoredLine mode="theme" />
       <SectionLabel>Achievement Level Progression</SectionLabel>
       {[
-        { level: "Level 3", label: "Basic", color: T.textDim, desc: "Predict transformation outputs spatially. No coordinates visible. Building intuition through manipulation." },
-        { level: "Level 4", label: "Mastery", color: T.accent, desc: "Coordinate rules revealed after spatial mastery. Connect spatial reasoning to algebraic representation." },
-        { level: "Level 5", label: "Advanced", color: T.info, desc: "Build multi-step transformation sequences. Justify congruence by describing the sequence mapping one figure to another." },
-      ].map(({ level, label, color, desc }) => (
-        <div key={level} style={{ margin: "10px 0" }}>
-          <span style={{ fontFamily: "monospace", fontSize: 12, fontWeight: 700, color }}>{level}</span>
-          <span style={{ fontFamily: "sans-serif", fontSize: 10, color: T.textDim, marginLeft: 6 }}>({label})</span>
-          <p style={{ fontFamily: "sans-serif", fontSize: 11, color: T.text, margin: "3px 0 0 8px", lineHeight: 1.4 }}>{desc}</p>
+        { level: "Level 3", label: "Basic", colorClass: "text-[var(--lab-text-dim)]", desc: "Predict transformation outputs spatially. No coordinates visible. Building intuition through manipulation." },
+        { level: "Level 4", label: "Mastery", colorClass: "text-[var(--lab-accent)]", desc: "Coordinate rules revealed after spatial mastery. Connect spatial reasoning to algebraic representation." },
+        { level: "Level 5", label: "Advanced", colorClass: "text-[var(--lab-info)]", desc: "Build multi-step transformation sequences. Justify congruence by describing the sequence mapping one figure to another." },
+      ].map(({ level, label, colorClass, desc }) => (
+        <div key={level} className="my-[10px]">
+          <span className={`font-mono text-[12px] font-bold ${colorClass}`}>{level}</span>
+          <span className="font-sans text-[10px] text-[var(--lab-text-dim)] ml-[6px]">({label})</span>
+          <p className="font-sans text-[11px] text-[var(--lab-text)] mt-[3px] ml-[8px] leading-[1.4]">{desc}</p>
         </div>
       ))}
       <ProgressDots total={4} current={0} label="Teacher" />
@@ -158,29 +86,33 @@ function StandardsPage() {
 
 function PhasesPage() {
   return (
-    <div style={{ padding: "24px 20px" }}>
+    <div className="px-[20px] py-[24px]">
       <SectionLabel>Teacher Section</SectionLabel>
-      <h2 style={{ fontFamily: "sans-serif", fontSize: 16, fontWeight: 700, color: T.accent, textTransform: "uppercase", letterSpacing: "0.05em", margin: "12px 0 4px" }}>Module Phases</h2>
-      <ScoredLine />
+      <h2 className="font-sans text-[16px] font-bold uppercase tracking-[0.05em] text-[var(--lab-accent)] mt-[12px] mb-[4px]">
+        Module Phases
+      </h2>
+      <ScoredLine mode="theme" />
       {[
         { num: "01", title: "Spatial Exploration", desc: "Drag a ghost shape to explore spatial relationships. No scoring, no coordinates — pure manipulation. Building the mental model that makes everything else possible." },
         { num: "02", title: "Predict & Reveal", desc: "The core loop. Commit a prediction by placing the ghost, then watch the animated reveal. Immediate visual feedback — no multiple choice. Scoring tracks accuracy across translations, reflections, and rotations." },
         { num: "03", title: "Coordinate Layer", desc: "The earned reveal. After demonstrating spatial mastery, coordinate notation appears. The formula is a label for a known idea — not an instruction to memorize." },
         { num: "04", title: "Capstone", desc: "Build two-step transformation sequences. The inverse task: given both figures, identify the sequence. Level 5 — describing sequences to justify congruence." },
       ].map(({ num, title, desc }) => (
-        <div key={num} style={{ margin: "14px 0" }}>
-          <div style={{ display: "flex", alignItems: "baseline", gap: 10 }}>
-            <span style={{ fontFamily: "monospace", fontSize: 14, color: T.accent }}>{num}</span>
-            <span style={{ fontFamily: "sans-serif", fontSize: 13, fontWeight: 700, color: T.white }}>{title}</span>
+        <div key={num} className="my-[14px]">
+          <div className="flex items-baseline gap-2.5">
+            <span className="font-mono text-[14px] text-[var(--lab-accent)]">{num}</span>
+            <span className="font-sans text-[13px] font-bold text-[var(--lab-white)]">{title}</span>
           </div>
-          <p style={{ fontFamily: "sans-serif", fontSize: 11, color: T.text, margin: "4px 0 0 24px", lineHeight: 1.5 }}>{desc}</p>
+          <p className="font-sans text-[11px] text-[var(--lab-text)] mt-[4px] ml-[24px] leading-[1.5]">
+            {desc}
+          </p>
         </div>
       ))}
-      <ScoredLine />
-      <div style={{ background: T.surface, borderRadius: 4, padding: "12px 16px", textAlign: "center", margin: "8px 0" }}>
-        <p style={{ fontFamily: "sans-serif", fontSize: 14, color: T.accent, margin: "0 0 4px" }}>Discovery before formula.</p>
-        <p style={{ fontFamily: "sans-serif", fontSize: 14, color: T.accent, margin: "0 0 8px" }}>Manipulation before explanation.</p>
-        <p style={{ fontFamily: "sans-serif", fontSize: 10, color: T.textDim, margin: 0 }}>— creative-lab design philosophy</p>
+      <ScoredLine mode="theme" />
+      <div className="bg-[var(--lab-surface)] rounded-[4px] px-4 py-3 text-center my-[8px]">
+        <p className="font-sans text-[14px] text-[var(--lab-accent)] mb-[4px]">Discovery before formula.</p>
+        <p className="font-sans text-[14px] text-[var(--lab-accent)] mb-[8px]">Manipulation before explanation.</p>
+        <p className="font-sans text-[10px] text-[var(--lab-text-dim)]">— creative-lab design philosophy</p>
       </div>
       <ProgressDots total={4} current={1} label="Teacher" />
     </div>
@@ -189,10 +121,12 @@ function PhasesPage() {
 
 function ImplementationPage() {
   return (
-    <div style={{ padding: "24px 20px" }}>
+    <div className="px-[20px] py-[24px]">
       <SectionLabel>Teacher Section</SectionLabel>
-      <h2 style={{ fontFamily: "sans-serif", fontSize: 16, fontWeight: 700, color: T.accent, textTransform: "uppercase", letterSpacing: "0.05em", margin: "12px 0 4px" }}>Implementation Notes</h2>
-      <ScoredLine />
+      <h2 className="font-sans text-[16px] font-bold uppercase tracking-[0.05em] text-[var(--lab-accent)] mt-[12px] mb-[4px]">
+        Implementation Notes
+      </h2>
+      <ScoredLine mode="theme" />
       {[
         { label: "DURATION", value: "2–3 class periods (45 min each)" },
         { label: "DEVICES", value: "Desktop or laptop recommended; tablet supported" },
@@ -200,15 +134,17 @@ function ImplementationPage() {
         { label: "TEACHER ROLE", value: "Observer and facilitator — the module is self-guided." },
         { label: "SHAPE FAMILY", value: "Scalene triangle — A(1,1) B(4,2) C(2,4). This triangle carries through all three modules in the progression." },
       ].map(({ label, value }) => (
-        <div key={label} style={{ margin: "10px 0" }}>
-          <span style={{ fontFamily: "monospace", fontSize: 10, color: T.textDim }}>{label}</span>
-          <p style={{ fontFamily: "sans-serif", fontSize: 12, color: T.text, margin: "3px 0 0 10px", lineHeight: 1.4 }}>{value}</p>
+        <div key={label} className="my-[10px]">
+          <span className="font-mono text-[10px] text-[var(--lab-text-dim)]">{label}</span>
+          <p className="font-sans text-[12px] text-[var(--lab-text)] mt-[3px] ml-[10px] leading-[1.4]">
+            {value}
+          </p>
         </div>
       ))}
-      <div style={{ background: T.surface, borderRadius: 4, padding: "8px 14px", margin: "12px 0" }}>
-        <span style={{ fontFamily: "monospace", fontSize: 13, color: T.accent }}>creative-lab-five.vercel.app</span>
+      <div className="bg-[var(--lab-surface)] rounded-[4px] px-[14px] py-[8px] my-[12px]">
+        <span className="font-mono text-[13px] text-[var(--lab-accent)]">creative-lab-five.vercel.app</span>
       </div>
-      <ScoredLine />
+      <ScoredLine mode="theme" />
       <SectionLabel>What to Watch For</SectionLabel>
       {[
         { title: "Skipping prediction", desc: "Encourage genuine commitment. The predict/reveal loop only builds understanding if the prediction is real." },
@@ -216,9 +152,9 @@ function ImplementationPage() {
         { title: "Discovering non-commutativity", desc: "In the capstone, some notice that transformation order matters. This is a Level 5 insight — name it when you see it." },
         { title: "Engagement signals", desc: "\"That's sick.\" \"Wait, how did it know?\" \"Can I try another one?\" These mean the instrument is working." },
       ].map(({ title, desc }) => (
-        <div key={title} style={{ margin: "8px 0" }}>
-          <p style={{ fontFamily: "sans-serif", fontSize: 11, fontWeight: 600, color: T.white, margin: "0 0 2px" }}>{title}</p>
-          <p style={{ fontFamily: "sans-serif", fontSize: 10, color: T.text, margin: "0 0 0 8px", lineHeight: 1.4 }}>{desc}</p>
+        <div key={title} className="my-[8px]">
+          <p className="font-sans text-[11px] font-semibold text-[var(--lab-white)] mb-[2px]">{title}</p>
+          <p className="font-sans text-[10px] text-[var(--lab-text)] ml-[8px] leading-[1.4]">{desc}</p>
         </div>
       ))}
       <ProgressDots total={4} current={2} label="Teacher" />
@@ -228,11 +164,13 @@ function ImplementationPage() {
 
 function ClassroomPage() {
   return (
-    <div style={{ padding: "24px 20px" }}>
+    <div className="px-[20px] py-[24px]">
       <SectionLabel>Teacher Section</SectionLabel>
-      <h2 style={{ fontFamily: "sans-serif", fontSize: 16, fontWeight: 700, color: T.accent, textTransform: "uppercase", letterSpacing: "0.05em", margin: "12px 0 4px" }}>Classroom Integration</h2>
-      <ScoredLine />
-      <p style={{ fontFamily: "sans-serif", fontSize: 12, color: T.text, margin: "8px 0", lineHeight: 1.5 }}>
+      <h2 className="font-sans text-[16px] font-bold uppercase tracking-[0.05em] text-[var(--lab-accent)] mt-[12px] mb-[4px]">
+        Classroom Integration
+      </h2>
+      <ScoredLine mode="theme" />
+      <p className="font-sans text-[12px] text-[var(--lab-text)] my-[8px] leading-[1.5]">
         The module is self-guided, but strategic teacher moves amplify the learning.
       </p>
       {[
@@ -242,9 +180,9 @@ function ClassroomPage() {
         { when: "During the capstone", move: "Ask pairs to compare sequences. \"Did you both get the same result? Is there another sequence that works?\" This surfaces non-commutativity naturally." },
         { when: "After the module", move: "Debrief with the core question: \"What stays the same when a shape moves?\" Students should now answer with precision — distances, angles, parallelism." },
       ].map(({ when, move }) => (
-        <div key={when} style={{ margin: "10px 0" }}>
-          <p style={{ fontFamily: "sans-serif", fontSize: 11, fontWeight: 600, color: T.accent, margin: "0 0 3px" }}>{when}</p>
-          <p style={{ fontFamily: "sans-serif", fontSize: 11, color: T.text, margin: "0 0 0 8px", lineHeight: 1.4 }}>{move}</p>
+        <div key={when} className="my-[10px]">
+          <p className="font-sans text-[11px] font-semibold text-[var(--lab-accent)] mb-[3px]">{when}</p>
+          <p className="font-sans text-[11px] text-[var(--lab-text)] ml-[8px] leading-[1.4]">{move}</p>
         </div>
       ))}
       <ProgressDots total={4} current={3} label="Teacher" />
@@ -254,27 +192,37 @@ function ClassroomPage() {
 
 function TranslationsPage() {
   return (
-    <div style={{ padding: "24px 20px" }}>
+    <div className="px-[20px] py-[24px]">
       <SectionLabel color={T.accent}>Discovery Log</SectionLabel>
-      <div style={{ display: "flex", gap: 16, margin: "12px 0 0" }}>
-        <div style={{ flex: 1 }}><span style={{ fontFamily: "sans-serif", fontSize: 10, color: T.textDim }}>NAME</span><div style={{ borderBottom: `1px solid ${T.border}`, height: 16 }} /></div>
-        <div style={{ flex: 1 }}><span style={{ fontFamily: "sans-serif", fontSize: 10, color: T.textDim }}>DATE</span><div style={{ borderBottom: `1px solid ${T.border}`, height: 16 }} /></div>
+      <div className="flex gap-4 mt-[12px]">
+        <div className="flex-1">
+          <span className="font-sans text-[10px] text-[var(--lab-text-dim)]">NAME</span>
+          <div className="border-b border-[var(--lab-border)] h-[16px]" />
+        </div>
+        <div className="flex-1">
+          <span className="font-sans text-[10px] text-[var(--lab-text-dim)]">DATE</span>
+          <div className="border-b border-[var(--lab-border)] h-[16px]" />
+        </div>
       </div>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", margin: "14px 0 0" }}>
-        <h2 style={{ fontFamily: "sans-serif", fontSize: 16, fontWeight: 700, color: T.white, margin: 0 }}>TRANSLATIONS</h2>
-        <span style={{ fontFamily: "monospace", fontSize: 11, color: T.textDim }}>(x, y) → ( ?, ? )</span>
+      <div className="flex justify-between items-baseline mt-[14px]">
+        <h2 className="font-sans text-[16px] font-bold text-[var(--lab-white)] m-0">TRANSLATIONS</h2>
+        <span className="font-mono text-[11px] text-[var(--lab-text-dim)]">(x, y) → ( ?, ? )</span>
       </div>
-      <ScoredLine />
-      <div style={{ background: T.surface, borderRadius: 3, padding: "6px 10px", margin: "8px 0", display: "flex", gap: 12, alignItems: "center" }}>
-        <span style={{ fontFamily: "sans-serif", fontSize: 10, color: T.textDim }}>REFERENCE</span>
-        <span style={{ fontFamily: "monospace", fontSize: 12, color: T.white }}>A(1,1)  B(4,2)  C(2,4)</span>
+      <ScoredLine mode="theme" />
+      <div className="bg-[var(--lab-surface)] rounded-[3px] px-[10px] py-[6px] my-[8px] flex items-center gap-3">
+        <span className="font-sans text-[10px] text-[var(--lab-text-dim)]">REFERENCE</span>
+        <span className="font-mono text-[12px] text-[var(--lab-white)]">A(1,1)  B(4,2)  C(2,4)</span>
       </div>
       <PromptBox>PREDICT: Where will the triangle land?</PromptBox>
       <DotGrid height={130} />
       <PromptBox>REVEAL: What rule did you discover?</PromptBox>
-      <div style={{ padding: "0 8px" }}><p style={{ fontFamily: "sans-serif", fontSize: 11, color: T.textDim, margin: "4px 0" }}>The coordinate rule for this translation:</p></div>
+      <div className="px-[8px]">
+        <p className="font-sans text-[11px] text-[var(--lab-text-dim)] mt-[4px]">The coordinate rule for this translation:</p>
+      </div>
       <WriteLines count={2} />
-      <div style={{ padding: "0 8px" }}><p style={{ fontFamily: "sans-serif", fontSize: 11, color: T.textDim, margin: "4px 0" }}>What stayed the same about the triangle?</p></div>
+      <div className="px-[8px]">
+        <p className="font-sans text-[11px] text-[var(--lab-text-dim)] mt-[4px]">What stayed the same about the triangle?</p>
+      </div>
       <WriteLines count={2} />
       <ProgressDots total={5} current={0} label="Discovery Log" />
     </div>
@@ -283,17 +231,21 @@ function TranslationsPage() {
 
 function ReflectionsPage() {
   return (
-    <div style={{ padding: "24px 20px" }}>
+    <div className="px-[20px] py-[24px]">
       <SectionLabel color={T.accent}>Discovery Log</SectionLabel>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", margin: "12px 0 0" }}>
-        <h2 style={{ fontFamily: "sans-serif", fontSize: 16, fontWeight: 700, color: T.white, margin: 0 }}>REFLECTIONS</h2>
-        <span style={{ fontFamily: "monospace", fontSize: 11, color: T.textDim }}>(x, y) → ( ?, ? )</span>
+      <div className="flex justify-between items-baseline mt-[12px]">
+        <h2 className="font-sans text-[16px] font-bold text-[var(--lab-white)] m-0">REFLECTIONS</h2>
+        <span className="font-mono text-[11px] text-[var(--lab-text-dim)]">(x, y) → ( ?, ? )</span>
       </div>
-      <ScoredLine />
-      <p style={{ fontFamily: "sans-serif", fontWeight: 600, fontSize: 13, color: T.accent, margin: "12px 0 6px" }}>Reflect over the x-axis</p>
+      <ScoredLine mode="theme" />
+      <p className="font-sans text-[13px] font-semibold text-[var(--lab-accent)] mt-[12px] mb-[6px]">
+        Reflect over the x-axis
+      </p>
       <PromptBox>PREDICT: Where will each vertex land?</PromptBox>
       <DotGrid height={100} />
-      <p style={{ fontFamily: "sans-serif", fontWeight: 600, fontSize: 13, color: T.accent, margin: "14px 0 6px" }}>Reflect over the y-axis</p>
+      <p className="font-sans text-[13px] font-semibold text-[var(--lab-accent)] mt-[14px] mb-[6px]">
+        Reflect over the y-axis
+      </p>
       <PromptBox>PREDICT: Where will each vertex land?</PromptBox>
       <DotGrid height={100} />
       <PromptBox>REVEAL: What coordinates changed? What stayed the same?</PromptBox>
@@ -305,17 +257,21 @@ function ReflectionsPage() {
 
 function RotationsPage() {
   return (
-    <div style={{ padding: "24px 20px" }}>
+    <div className="px-[20px] py-[24px]">
       <SectionLabel color={T.accent}>Discovery Log</SectionLabel>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", margin: "12px 0 0" }}>
-        <h2 style={{ fontFamily: "sans-serif", fontSize: 16, fontWeight: 700, color: T.white, margin: 0 }}>ROTATIONS</h2>
-        <span style={{ fontFamily: "monospace", fontSize: 11, color: T.textDim }}>(x, y) → ( ?, ? )</span>
+      <div className="flex justify-between items-baseline mt-[12px]">
+        <h2 className="font-sans text-[16px] font-bold text-[var(--lab-white)] m-0">ROTATIONS</h2>
+        <span className="font-mono text-[11px] text-[var(--lab-text-dim)]">(x, y) → ( ?, ? )</span>
       </div>
-      <ScoredLine />
-      <p style={{ fontFamily: "sans-serif", fontWeight: 600, fontSize: 13, color: T.accent, margin: "12px 0 6px" }}>90° counterclockwise about the origin</p>
+      <ScoredLine mode="theme" />
+      <p className="font-sans text-[13px] font-semibold text-[var(--lab-accent)] mt-[12px] mb-[6px]">
+        90° counterclockwise about the origin
+      </p>
       <PromptBox>PREDICT: Where will the triangle land?</PromptBox>
       <DotGrid height={110} />
-      <p style={{ fontFamily: "sans-serif", fontWeight: 600, fontSize: 13, color: T.accent, margin: "14px 0 6px" }}>180° about the origin</p>
+      <p className="font-sans text-[13px] font-semibold text-[var(--lab-accent)] mt-[14px] mb-[6px]">
+        180° about the origin
+      </p>
       <PromptBox>PREDICT: What happens to (x, y)?</PromptBox>
       <DotGrid height={100} />
       <PromptBox>REVEAL: Describe the pattern in the coordinates.</PromptBox>
@@ -327,27 +283,31 @@ function RotationsPage() {
 
 function CapstonePage() {
   return (
-    <div style={{ padding: "24px 20px" }}>
+    <div className="px-[20px] py-[24px]">
       <SectionLabel color={T.info}>Discovery Log</SectionLabel>
-      <h2 style={{ fontFamily: "sans-serif", fontSize: 16, fontWeight: 700, color: T.info, textTransform: "uppercase", letterSpacing: "0.05em", margin: "12px 0 4px" }}>Capstone: Sequence Builder</h2>
-      <ScoredLine />
-      <p style={{ fontFamily: "sans-serif", fontSize: 12, color: T.text, margin: "8px 0", lineHeight: 1.5 }}>Build a two-step transformation sequence. Predict the final position after both transformations are applied in order.</p>
-      <div style={{ background: T.surface, borderRadius: 3, padding: "6px 10px", margin: "8px 0", display: "flex", gap: 12, alignItems: "center" }}>
-        <span style={{ fontFamily: "sans-serif", fontSize: 10, color: T.textDim }}>REFERENCE</span>
-        <span style={{ fontFamily: "monospace", fontSize: 12, color: T.white }}>A(1,1)  B(4,2)  C(2,4)</span>
+      <h2 className="font-sans text-[16px] font-bold uppercase tracking-[0.05em] text-[var(--lab-info)] mt-[12px] mb-[4px]">
+        Capstone: Sequence Builder
+      </h2>
+      <ScoredLine mode="theme" />
+      <p className="font-sans text-[12px] text-[var(--lab-text)] my-[8px] leading-[1.5]">
+        Build a two-step transformation sequence. Predict the final position after both transformations are applied in order.
+      </p>
+      <div className="bg-[var(--lab-surface)] rounded-[3px] px-[10px] py-[6px] my-[8px] flex items-center gap-3">
+        <span className="font-sans text-[10px] text-[var(--lab-text-dim)]">REFERENCE</span>
+        <span className="font-mono text-[12px] text-[var(--lab-white)]">A(1,1)  B(4,2)  C(2,4)</span>
       </div>
       {["STEP 1", "STEP 2"].map((step) => (
-        <div key={step} style={{ margin: "14px 0" }}>
-          <p style={{ fontFamily: "monospace", fontSize: 13, fontWeight: 700, color: T.accent, margin: "0 0 8px" }}>{step}</p>
+        <div key={step} className="my-[14px]">
+          <p className="font-mono text-[13px] font-bold text-[var(--lab-accent)] mb-[8px]">{step}</p>
           {["TRANSFORMATION TYPE", "PARAMETERS", step === "STEP 1" ? "PREDICTED RESULT  A'( , )  B'( , )  C'( , )" : "FINAL POSITION  A''( , )  B''( , )  C''( , )"].map((field) => (
-            <div key={field} style={{ margin: "4px 0 4px 10px" }}>
-              <span style={{ fontFamily: "monospace", fontSize: 9, color: T.textDim, letterSpacing: "0.1em" }}>{field}</span>
-              <div style={{ borderBottom: `1px solid ${T.border}`, height: 18 }} />
+            <div key={field} className="mt-[4px] mb-[4px] ml-[10px]">
+              <span className="font-mono text-[9px] text-[var(--lab-text-dim)] tracking-[0.1em]">{field}</span>
+              <div className="h-[18px] border-b border-[var(--lab-border)]" />
             </div>
           ))}
         </div>
       ))}
-      <ScoredLine />
+      <ScoredLine mode="theme" />
       <PromptBox>Why are the original and final triangles congruent?</PromptBox>
       <WriteLines count={3} />
       <PromptBox>Does the order of your steps matter? How do you know?</PromptBox>
@@ -359,10 +319,12 @@ function CapstonePage() {
 
 function NotesPage() {
   return (
-    <div style={{ padding: "24px 20px" }}>
+    <div className="px-[20px] py-[24px]">
       <SectionLabel color={T.accent}>Discovery Log</SectionLabel>
-      <h2 style={{ fontFamily: "sans-serif", fontSize: 16, fontWeight: 700, color: T.accent, textTransform: "uppercase", letterSpacing: "0.05em", margin: "12px 0 4px" }}>Notes & Observations</h2>
-      <ScoredLine />
+      <h2 className="font-sans text-[16px] font-bold uppercase tracking-[0.05em] text-[var(--lab-accent)] mt-[12px] mb-[4px]">
+        Notes & Observations
+      </h2>
+      <ScoredLine mode="theme" />
       <DotGrid height={440} />
       <ProgressDots total={5} current={4} label="Discovery Log" />
     </div>
@@ -371,17 +333,17 @@ function NotesPage() {
 
 function BackCover() {
   return (
-    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: 32, textAlign: "center" }}>
+    <div className="min-h-screen flex flex-col items-center justify-center p-8 text-center">
       <SectionLabel>Laboratory Grade</SectionLabel>
-      <ScoredLine />
-      <p style={{ fontFamily: "sans-serif", fontSize: 14, color: T.text, margin: "16px 0 4px" }}>Designed by Randall LaPoint, Jr.</p>
-      <p style={{ fontFamily: "sans-serif", fontSize: 11, color: T.textDim, margin: "0 0 4px" }}>15 years in math classrooms.</p>
-      <p style={{ fontFamily: "sans-serif", fontSize: 11, color: T.textDim }}>Building the tools that let me serve students at scale.</p>
-      <ScoredLine />
-      <p style={{ fontFamily: "monospace", fontSize: 12, color: T.accent, margin: "16px 0" }}>creative-lab-five.vercel.app</p>
-      <p style={{ fontFamily: "sans-serif", fontSize: 11, color: T.textDim, margin: "0 0 4px" }}>Part of the Grade 8 Geometry Progression</p>
-      <p style={{ fontFamily: "sans-serif", fontSize: 10, color: T.textDim }}>Rigid Motions  ·  Dilations & Similarity  ·  Pythagorean Theorem</p>
-      <p style={{ fontFamily: "monospace", fontSize: 9, color: T.surfaceHi, marginTop: 24 }}>ISTE LIVE 2026</p>
+      <ScoredLine mode="theme" />
+      <p className="font-sans text-[14px] text-[var(--lab-text)] mt-[16px] mb-[4px]">Designed by Randall LaPoint, Jr.</p>
+      <p className="font-sans text-[11px] text-[var(--lab-text-dim)] mb-[4px]">15 years in math classrooms.</p>
+      <p className="font-sans text-[11px] text-[var(--lab-text-dim)]">Building the tools that let me serve students at scale.</p>
+      <ScoredLine mode="theme" />
+      <p className="font-mono text-[12px] text-[var(--lab-accent)] my-[16px]">creative-lab-five.vercel.app</p>
+      <p className="font-sans text-[11px] text-[var(--lab-text-dim)] mb-[4px]">Part of the Grade 8 Geometry Progression</p>
+      <p className="font-sans text-[10px] text-[var(--lab-text-dim)]">Rigid Motions  ·  Dilations & Similarity  ·  Pythagorean Theorem</p>
+      <p className="font-mono text-[9px] text-[var(--lab-surface-hi)] mt-[24px]">ISTE LIVE 2026</p>
     </div>
   );
 }
@@ -424,13 +386,12 @@ export default function LabGuideRigidMotions() {
   };
 
   return (
-    <div style={{ background: T.bg, minHeight: "100vh", color: T.text, fontFamily: "sans-serif" }}>
+    <div className="bg-[var(--lab-bg)] min-h-screen text-[var(--lab-text)] font-sans">
       <Tabs value={activeId} onValueChange={setActiveId} className="w-full">
         <div
-          className="sticky top-0 z-10 border-b backdrop-blur"
-          style={{ background: `${T.surface}cc`, borderBottomColor: T.border }}
+          className="sticky top-0 z-10 border-b border-[var(--lab-border)] backdrop-blur bg-[color-mix(in_srgb,var(--lab-surface)_80%,transparent)]"
         >
-          <TabsList className="w-full justify-start overflow-x-auto flex-nowrap" style={{ background: "transparent" }}>
+          <TabsList className="w-full justify-start overflow-x-auto flex-nowrap bg-transparent">
           {PAGES.map((p) => (
             <TabsTrigger
               key={p.id}
@@ -455,12 +416,13 @@ export default function LabGuideRigidMotions() {
             size="sm"
             onClick={goPrev}
             disabled={pageIndex === 0}
-            className="font-mono text-[10px]"
-            style={{ borderColor: T.border, color: pageIndex === 0 ? T.surfaceHi : T.textDim }}
+            className={`font-mono text-[10px] border-[var(--lab-border)] ${
+              pageIndex === 0 ? "text-[var(--lab-surface-hi)]" : "text-[var(--lab-text-dim)]"
+            }`}
           >
             ← PREV
           </Button>
-          <span className="font-mono text-[9px]" style={{ color: T.surfaceHi }}>
+          <span className="font-mono text-[9px] text-[var(--lab-surface-hi)]">
             {pageIndex + 1} / {PAGES.length}
           </span>
           <Button
@@ -468,11 +430,9 @@ export default function LabGuideRigidMotions() {
             size="sm"
             onClick={goNext}
             disabled={pageIndex === PAGES.length - 1}
-            className="font-mono text-[10px]"
-            style={{
-              borderColor: T.border,
-              color: pageIndex === PAGES.length - 1 ? T.surfaceHi : T.textDim,
-            }}
+            className={`font-mono text-[10px] border-[var(--lab-border)] ${
+              pageIndex === PAGES.length - 1 ? "text-[var(--lab-surface-hi)]" : "text-[var(--lab-text-dim)]"
+            }`}
           >
             NEXT →
           </Button>

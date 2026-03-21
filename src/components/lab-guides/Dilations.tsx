@@ -1,168 +1,47 @@
 import React, { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { Badge as ShadcnBadge } from "@/components/ui/badge";
+import { labTokens } from "@/lib/labTokens";
+import { Badge, DotGrid, ProgressDots, PromptBox, ScoredLine, SectionLabel, WriteLines } from "@/components/lab-guides/labPrimitives";
 
 // ── Design Tokens ─────────────────────────────────────────────
-// Matches creative-lab design system: src/lib/colors.ts
-const T = {
-  bg: "var(--lab-bg)",
-  surface: "var(--lab-surface)",
-  surfaceHi: "var(--lab-surface-hi)",
-  border: "var(--lab-border)",
-  text: "var(--lab-text)",
-  textDim: "var(--lab-text-dim)",
-  accent: "var(--lab-accent)",
-  accentDim: "var(--lab-accent-dim)",
-  white: "var(--lab-white)",
-  danger: "var(--lab-danger)",
-  info: "var(--lab-info)",
-};
-
-// ── Progress Dots ─────────────────────────────────────────────
-// Mirrors StatusStrip .sdot pattern from the module
-function ProgressDots({
-  total,
-  current,
-  label,
-}: { total: number; current: number; label?: string }) {
-  return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6, padding: "16px 0 8px" }}>
-      <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-        {Array.from({ length: total }, (_, i) => (
-          <div
-            key={i}
-            style={{
-              width: i === current ? 14 : 8,
-              height: i === current ? 14 : 8,
-              borderRadius: "50%",
-              background: i < current ? T.accent : i === current ? T.accent : "transparent",
-              border: i === current ? `2px solid ${T.accent}` : i < current ? "none" : `1px solid ${T.textDim}`,
-              boxShadow: i === current ? `0 0 8px ${T.accentDim}` : "none",
-              transition: "all 0.3s ease",
-            }}
-          />
-        ))}
-      </div>
-      {label && (
-        <span style={{ fontFamily: "monospace", fontSize: 9, color: T.surfaceHi, letterSpacing: "0.15em", textTransform: "uppercase" }}>
-          {label}
-        </span>
-      )}
-    </div>
-  );
-}
-
-// ── Shared Components ─────────────────────────────────────────
-function ScoredLine() {
-  return <Separator className="my-2" style={{ background: T.border }} />;
-}
-
-function SectionLabel({
-  children,
-  color,
-}: { children: React.ReactNode; color?: string }) {
-  return (
-    <span style={{ fontFamily: "monospace", fontSize: 9, color: color || T.textDim, letterSpacing: "0.2em", textTransform: "uppercase" }}>
-      {children}
-    </span>
-  );
-}
-
-function Badge({
-  children,
-  color,
-}: { children: React.ReactNode; color?: string }) {
-  const resolved = color ?? T.accent;
-  return (
-    <ShadcnBadge
-      variant="outline"
-      className="font-mono text-[11px] px-2 py-0.5 rounded-sm border-transparent"
-      style={{ color: resolved, background: T.accentDim }}
-    >
-      {children}
-    </ShadcnBadge>
-  );
-}
-
-function PromptBox({ children }: { children: React.ReactNode }) {
-  return (
-    <div style={{ background: T.surface, borderRadius: 4, padding: "8px 12px", margin: "8px 0" }}>
-      <span style={{ fontFamily: "sans-serif", fontSize: 13, color: T.white }}>{children}</span>
-    </div>
-  );
-}
-
-function DotGrid({ height = 120 }: { height?: number }) {
-  const dots = [];
-  const spacing = 16;
-  const cols = 22;
-  const rows = Math.floor(height / spacing);
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < cols; c++) {
-      dots.push(
-        <circle key={`${r}-${c}`} cx={10 + c * spacing} cy={10 + r * spacing} r={1} fill={T.textDim} opacity={0.5} />
-      );
-    }
-  }
-  return (
-    <div style={{ background: T.surface, borderRadius: 4, padding: 4, margin: "6px 0" }}>
-      <svg width="100%" height={height} viewBox={`0 0 ${10 + cols * spacing} ${10 + rows * spacing}`}>
-        {dots}
-      </svg>
-      <div style={{ fontFamily: "sans-serif", fontSize: 9, color: T.surfaceHi, padding: "0 8px 4px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
-        sketch your prediction
-      </div>
-    </div>
-  );
-}
-
-function WriteLines({ count = 3 }: { count?: number }) {
-  return (
-    <div style={{ padding: "4px 8px" }}>
-      {Array.from({ length: count }, (_, i) => (
-        <div key={i} style={{ borderBottom: `1px solid ${T.border}`, height: 22 }} />
-      ))}
-    </div>
-  );
-}
+const T = labTokens;
 
 // ── Page Components ───────────────────────────────────────────
 
 function Cover() {
   return (
-    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: 32, textAlign: "center" }}>
+    <div className="min-h-screen flex flex-col items-center justify-center p-8 text-center">
       <SectionLabel>Lab Guide</SectionLabel>
       <ScoredLine />
-      <h1 style={{ fontFamily: "sans-serif", fontSize: 28, fontWeight: 700, color: T.white, margin: "24px 0 4px", lineHeight: 1.2 }}>
+      <h1 className="font-sans text-[28px] font-bold text-[var(--lab-white)] mt-[24px] mb-[4px] leading-[1.2]">
         Dilations, Similarity
       </h1>
-      <h1 style={{ fontFamily: "sans-serif", fontSize: 28, fontWeight: 700, color: T.white, margin: "0 0 16px", lineHeight: 1.2 }}>
+      <h1 className="font-sans text-[28px] font-bold text-[var(--lab-white)] mb-[16px] leading-[1.2]">
         & Right Triangles
       </h1>
-      <p style={{ fontFamily: "sans-serif", fontSize: 14, color: T.text, margin: "0 0 4px" }}>Grade 8 Mathematics</p>
-      <p style={{ fontFamily: "sans-serif", fontSize: 12, color: T.textDim }}>IVLA STEM Club</p>
-      <div style={{ display: "flex", gap: 8, margin: "24px 0", flexWrap: "wrap", justifyContent: "center" }}>
+      <p className="font-sans text-[14px] text-[var(--lab-text)] mb-[4px]">Grade 8 Mathematics</p>
+      <p className="font-sans text-[12px] text-[var(--lab-text-dim)]">IVLA STEM Club</p>
+      <div className="flex flex-wrap justify-center gap-2 my-[24px]">
         <Badge>8.G.A.3</Badge>
         <Badge>8.G.A.4</Badge>
         <Badge color={T.info}>G-SRT bridge</Badge>
       </div>
       <ScoredLine />
-      <p style={{ fontFamily: "sans-serif", fontSize: 15, color: T.accent, fontStyle: "italic", margin: "16px 0", maxWidth: 320 }}>
+      <p className="font-sans text-[15px] italic text-[var(--lab-accent)] my-[16px] max-w-[320px]">
         "What changes when a shape grows? What stays the same?"
       </p>
       <ScoredLine />
-      <p style={{ fontFamily: "monospace", fontSize: 11, color: T.textDim, marginTop: 24 }}>creative-lab-five.vercel.app</p>
+      <p className="font-mono text-[11px] text-[var(--lab-text-dim)] mt-[24px]">creative-lab-five.vercel.app</p>
     </div>
   );
 }
 
 function StandardsPage() {
   return (
-    <div style={{ padding: "24px 20px" }}>
+    <div className="px-[20px] py-[24px]">
       <SectionLabel>Teacher Section</SectionLabel>
-      <h2 style={{ fontFamily: "sans-serif", fontSize: 16, fontWeight: 700, color: T.accent, textTransform: "uppercase", letterSpacing: "0.05em", margin: "12px 0 4px" }}>
+      <h2 className="font-sans text-[16px] font-bold uppercase tracking-[0.05em] text-[var(--lab-accent)] mt-[12px] mb-[4px]">
         Standards Alignment
       </h2>
       <ScoredLine />
@@ -171,25 +50,27 @@ function StandardsPage() {
         { code: "8.G.A.3", desc: "Describe the effect of dilations, translations, rotations, and reflections on two-dimensional figures using coordinates. Dilations use the origin as center of dilation." },
         { code: "8.G.A.4", desc: "Explain that a two-dimensional figure is similar to another if the second can be obtained by a sequence of rotations, reflections, translations, and dilations. Describe the sequence that exhibits similarity." },
       ].map(({ code, desc }) => (
-        <div key={code} style={{ margin: "12px 0" }}>
-          <span style={{ fontFamily: "monospace", fontSize: 13, color: T.accent }}>{code}</span>
-          <p style={{ fontFamily: "sans-serif", fontSize: 12, color: T.text, margin: "4px 0 0 8px", lineHeight: 1.5 }}>{desc}</p>
+        <div key={code} className="my-[12px]">
+          <span className="font-mono text-[13px] text-[var(--lab-accent)]">{code}</span>
+          <p className="font-sans text-[12px] text-[var(--lab-text)] mt-[4px] ml-[8px] leading-[1.5]">
+            {desc}
+          </p>
         </div>
       ))}
 
       <ScoredLine />
       <SectionLabel>Rigor Components</SectionLabel>
-      <div style={{ margin: "10px 0" }}>
-        <p style={{ fontFamily: "sans-serif", fontSize: 12, fontWeight: 600, color: T.white, margin: "8px 0 2px" }}>Conceptual Understanding</p>
-        <p style={{ fontFamily: "sans-serif", fontSize: 11, color: T.text, margin: "0 0 0 8px", lineHeight: 1.4 }}>
+      <div className="my-[10px]">
+        <p className="font-sans text-[12px] font-semibold text-[var(--lab-white)] mt-[8px] mb-[2px]">Conceptual Understanding</p>
+        <p className="font-sans text-[11px] text-[var(--lab-text)] ml-[8px] leading-[1.4]">
           Students understand that dilations produce similar (not congruent) figures — angles are preserved, side lengths are proportional.
         </p>
-        <p style={{ fontFamily: "sans-serif", fontSize: 12, fontWeight: 600, color: T.white, margin: "10px 0 2px" }}>Procedural Skill</p>
-        <p style={{ fontFamily: "sans-serif", fontSize: 11, color: T.text, margin: "0 0 0 8px", lineHeight: 1.4 }}>
+        <p className="font-sans text-[12px] font-semibold text-[var(--lab-white)] mt-[10px] mb-[2px]">Procedural Skill</p>
+        <p className="font-sans text-[11px] text-[var(--lab-text)] ml-[8px] leading-[1.4]">
           Students apply coordinate rules for dilations centered at the origin after demonstrating spatial understanding of scale factor.
         </p>
-        <p style={{ fontFamily: "sans-serif", fontSize: 12, fontWeight: 600, color: T.white, margin: "10px 0 2px" }}>Application</p>
-        <p style={{ fontFamily: "sans-serif", fontSize: 11, color: T.text, margin: "0 0 0 8px", lineHeight: 1.4 }}>
+        <p className="font-sans text-[12px] font-semibold text-[var(--lab-white)] mt-[10px] mb-[2px]">Application</p>
+        <p className="font-sans text-[11px] text-[var(--lab-text)] ml-[8px] leading-[1.4]">
           Students compose rigid motions with dilations to produce similar figures — modeling similarity as a transformation sequence rather than a static property.
         </p>
       </div>
@@ -197,14 +78,14 @@ function StandardsPage() {
       <ScoredLine />
       <SectionLabel>Achievement Level Progression</SectionLabel>
       {[
-        { level: "Level 3", label: "Basic", color: T.textDim, desc: "Identify dilated figures. Recognize that a shape grew or shrank. Distinguish similar from congruent by appearance." },
-        { level: "Level 4", label: "Mastery", color: T.accent, desc: "Apply scale factor to coordinates. Describe dilation rules using (x, y) → (kx, ky). Determine scale factor from two similar figures." },
-        { level: "Level 5", label: "Advanced", color: T.info, desc: "Describe sequences combining rigid motions and dilations to exhibit similarity. Explain why corresponding angles are congruent and sides are proportional." },
-      ].map(({ level, label, color, desc }) => (
-        <div key={level} style={{ margin: "10px 0" }}>
-          <span style={{ fontFamily: "monospace", fontSize: 12, fontWeight: 700, color }}>{level}</span>
-          <span style={{ fontFamily: "sans-serif", fontSize: 10, color: T.textDim, marginLeft: 6 }}>({label})</span>
-          <p style={{ fontFamily: "sans-serif", fontSize: 11, color: T.text, margin: "3px 0 0 8px", lineHeight: 1.4 }}>{desc}</p>
+        { level: "Level 3", label: "Basic", colorClass: "text-[var(--lab-text-dim)]", desc: "Identify dilated figures. Recognize that a shape grew or shrank. Distinguish similar from congruent by appearance." },
+        { level: "Level 4", label: "Mastery", colorClass: "text-[var(--lab-accent)]", desc: "Apply scale factor to coordinates. Describe dilation rules using (x, y) → (kx, ky). Determine scale factor from two similar figures." },
+        { level: "Level 5", label: "Advanced", colorClass: "text-[var(--lab-info)]", desc: "Describe sequences combining rigid motions and dilations to exhibit similarity. Explain why corresponding angles are congruent and sides are proportional." },
+      ].map(({ level, label, colorClass, desc }) => (
+        <div key={level} className="my-[10px]">
+          <span className={`font-mono text-[12px] font-bold ${colorClass}`}>{level}</span>
+          <span className="font-sans text-[10px] text-[var(--lab-text-dim)] ml-[6px]">({label})</span>
+          <p className="font-sans text-[11px] text-[var(--lab-text)] mt-[3px] ml-[8px] leading-[1.4]">{desc}</p>
         </div>
       ))}
 
@@ -222,28 +103,30 @@ function PhasesPage() {
   ];
 
   return (
-    <div style={{ padding: "24px 20px" }}>
+    <div className="px-[20px] py-[24px]">
       <SectionLabel>Teacher Section</SectionLabel>
-      <h2 style={{ fontFamily: "sans-serif", fontSize: 16, fontWeight: 700, color: T.accent, textTransform: "uppercase", letterSpacing: "0.05em", margin: "12px 0 4px" }}>
+      <h2 className="font-sans text-[16px] font-bold uppercase tracking-[0.05em] text-[var(--lab-accent)] mt-[12px] mb-[4px]">
         Module Phases
       </h2>
       <ScoredLine />
 
       {phases.map(({ num, title, desc }) => (
-        <div key={num} style={{ margin: "14px 0" }}>
-          <div style={{ display: "flex", alignItems: "baseline", gap: 10 }}>
-            <span style={{ fontFamily: "monospace", fontSize: 14, color: T.accent }}>{num}</span>
-            <span style={{ fontFamily: "sans-serif", fontSize: 13, fontWeight: 700, color: T.white }}>{title}</span>
+        <div key={num} className="my-[14px]">
+          <div className="flex items-baseline gap-2.5">
+            <span className="font-mono text-[14px] text-[var(--lab-accent)]">{num}</span>
+            <span className="font-sans text-[13px] font-bold text-[var(--lab-white)]">{title}</span>
           </div>
-          <p style={{ fontFamily: "sans-serif", fontSize: 11, color: T.text, margin: "4px 0 0 24px", lineHeight: 1.5 }}>{desc}</p>
+          <p className="font-sans text-[11px] text-[var(--lab-text)] mt-[4px] ml-[24px] leading-[1.5]">
+            {desc}
+          </p>
         </div>
       ))}
 
       <ScoredLine />
-      <div style={{ background: T.surface, borderRadius: 4, padding: "12px 16px", textAlign: "center", margin: "8px 0" }}>
-        <p style={{ fontFamily: "sans-serif", fontSize: 14, color: T.accent, margin: "0 0 4px" }}>The same triangle. A new property.</p>
-        <p style={{ fontFamily: "sans-serif", fontSize: 14, color: T.accent, margin: "0 0 8px" }}>Scale changes size. It preserves shape.</p>
-        <p style={{ fontFamily: "sans-serif", fontSize: 10, color: T.textDim, margin: 0 }}>— creative-lab design philosophy</p>
+      <div className="bg-[var(--lab-surface)] rounded-[4px] px-4 py-3 text-center my-[8px]">
+        <p className="font-sans text-[14px] text-[var(--lab-accent)] mb-[4px]">The same triangle. A new property.</p>
+        <p className="font-sans text-[14px] text-[var(--lab-accent)] mb-[8px]">Scale changes size. It preserves shape.</p>
+        <p className="font-sans text-[10px] text-[var(--lab-text-dim)]">— creative-lab design philosophy</p>
       </div>
 
       <ProgressDots total={4} current={1} label="Teacher" />
@@ -253,9 +136,9 @@ function PhasesPage() {
 
 function ImplementationPage() {
   return (
-    <div style={{ padding: "24px 20px" }}>
+    <div className="px-[20px] py-[24px]">
       <SectionLabel>Teacher Section</SectionLabel>
-      <h2 style={{ fontFamily: "sans-serif", fontSize: 16, fontWeight: 700, color: T.accent, textTransform: "uppercase", letterSpacing: "0.05em", margin: "12px 0 4px" }}>
+      <h2 className="font-sans text-[16px] font-bold uppercase tracking-[0.05em] text-[var(--lab-accent)] mt-[12px] mb-[4px]">
         Implementation Notes
       </h2>
       <ScoredLine />
@@ -267,14 +150,14 @@ function ImplementationPage() {
         { label: "SETUP", value: "No account required. Navigate to URL. Module picks up where Rigid Motions left off." },
         { label: "SHAPE FAMILY", value: "Same scalene triangle from Module 1 — A(1,1) B(4,2) C(2,4). Students recognize it immediately." },
       ].map(({ label, value }) => (
-        <div key={label} style={{ margin: "10px 0" }}>
-          <span style={{ fontFamily: "monospace", fontSize: 10, color: T.textDim }}>{label}</span>
-          <p style={{ fontFamily: "sans-serif", fontSize: 12, color: T.text, margin: "3px 0 0 10px", lineHeight: 1.4 }}>{value}</p>
+        <div key={label} className="my-[10px]">
+          <span className="font-mono text-[10px] text-[var(--lab-text-dim)]">{label}</span>
+          <p className="font-sans text-[12px] text-[var(--lab-text)] mt-[3px] ml-[10px] leading-[1.4]">{value}</p>
         </div>
       ))}
 
-      <div style={{ background: T.surface, borderRadius: 4, padding: "8px 14px", margin: "12px 0" }}>
-        <span style={{ fontFamily: "monospace", fontSize: 13, color: T.accent }}>creative-lab-five.vercel.app</span>
+      <div className="bg-[var(--lab-surface)] rounded-[4px] px-[14px] py-[8px] my-[12px]">
+        <span className="font-mono text-[13px] text-[var(--lab-accent)]">creative-lab-five.vercel.app</span>
       </div>
 
       <ScoredLine />
@@ -286,9 +169,9 @@ function ImplementationPage() {
         { title: "Connecting to Module 1", desc: "The capstone explicitly bridges: 'rigid motion + dilation = similarity transformation.' Students who completed Module 1 will recognize the sequence-building pattern." },
         { title: "Engagement signals", desc: "\"That's sick.\" \"Wait, so it's the same shape?\" \"Can I try a different scale factor?\" These mean the instrument is working." },
       ].map(({ title, desc }) => (
-        <div key={title} style={{ margin: "8px 0" }}>
-          <p style={{ fontFamily: "sans-serif", fontSize: 11, fontWeight: 600, color: T.white, margin: "0 0 2px" }}>{title}</p>
-          <p style={{ fontFamily: "sans-serif", fontSize: 10, color: T.text, margin: "0 0 0 8px", lineHeight: 1.4 }}>{desc}</p>
+        <div key={title} className="my-[8px]">
+          <p className="font-sans text-[11px] font-semibold text-[var(--lab-white)] mb-[2px]">{title}</p>
+          <p className="font-sans text-[10px] text-[var(--lab-text)] ml-[8px] leading-[1.4]">{desc}</p>
         </div>
       ))}
 
@@ -299,13 +182,13 @@ function ImplementationPage() {
 
 function ClassroomPage() {
   return (
-    <div style={{ padding: "24px 20px" }}>
+    <div className="px-[20px] py-[24px]">
       <SectionLabel>Teacher Section</SectionLabel>
-      <h2 style={{ fontFamily: "sans-serif", fontSize: 16, fontWeight: 700, color: T.accent, textTransform: "uppercase", letterSpacing: "0.05em", margin: "12px 0 4px" }}>
+      <h2 className="font-sans text-[16px] font-bold uppercase tracking-[0.05em] text-[var(--lab-accent)] mt-[12px] mb-[4px]">
         Classroom Integration
       </h2>
       <ScoredLine />
-      <p style={{ fontFamily: "sans-serif", fontSize: 12, color: T.text, margin: "8px 0", lineHeight: 1.5 }}>
+      <p className="font-sans text-[12px] text-[var(--lab-text)] my-[8px] leading-[1.5]">
         This module builds directly on Rigid Motions. The same triangle, the same predict/reveal loop, a new property to discover.
       </p>
 
@@ -316,9 +199,9 @@ function ClassroomPage() {
         { when: "At the Phase 3 boundary", move: "Students who struggled with coordinate rules in Module 1 may find this easier — multiplication feels more natural than the sign-flipping of reflections. Celebrate that." },
         { when: "During the capstone", move: "Pairs should compare: 'I used translate then dilate. You used dilate then translate. Did we get the same result?' This surfaces commutativity questions from Module 1 in a new context." },
       ].map(({ when, move }) => (
-        <div key={when} style={{ margin: "10px 0" }}>
-          <p style={{ fontFamily: "sans-serif", fontSize: 11, fontWeight: 600, color: T.accent, margin: "0 0 3px" }}>{when}</p>
-          <p style={{ fontFamily: "sans-serif", fontSize: 11, color: T.text, margin: "0 0 0 8px", lineHeight: 1.4 }}>{move}</p>
+        <div key={when} className="my-[10px]">
+          <p className="font-sans text-[11px] font-semibold text-[var(--lab-accent)] mb-[3px]">{when}</p>
+          <p className="font-sans text-[11px] text-[var(--lab-text)] ml-[8px] leading-[1.4]">{move}</p>
         </div>
       ))}
 
@@ -331,31 +214,31 @@ function ClassroomPage() {
 
 function DilationsPage() {
   return (
-    <div style={{ padding: "24px 20px" }}>
+    <div className="px-[20px] py-[24px]">
       <SectionLabel color={T.accent}>Discovery Log</SectionLabel>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", margin: "12px 0 0" }}>
-        <h2 style={{ fontFamily: "sans-serif", fontSize: 16, fontWeight: 700, color: T.white, margin: 0 }}>DILATIONS</h2>
-        <span style={{ fontFamily: "monospace", fontSize: 11, color: T.textDim }}>(x, y) → (kx, ky)</span>
+      <div className="flex justify-between items-baseline mt-[12px]">
+        <h2 className="font-sans text-[16px] font-bold text-[var(--lab-white)] m-0">DILATIONS</h2>
+        <span className="font-mono text-[11px] text-[var(--lab-text-dim)]">(x, y) → (kx, ky)</span>
       </div>
       <ScoredLine />
 
-      <div style={{ background: T.surface, borderRadius: 3, padding: "6px 10px", margin: "8px 0", display: "flex", gap: 12, alignItems: "center" }}>
-        <span style={{ fontFamily: "sans-serif", fontSize: 10, color: T.textDim }}>REFERENCE</span>
-        <span style={{ fontFamily: "monospace", fontSize: 12, color: T.white }}>A(1,1)  B(4,2)  C(2,4)</span>
+      <div className="bg-[var(--lab-surface)] rounded-[3px] px-[10px] py-[6px] my-[8px] flex items-center gap-3">
+        <span className="font-sans text-[10px] text-[var(--lab-text-dim)]">REFERENCE</span>
+        <span className="font-mono text-[12px] text-[var(--lab-white)]">A(1,1)  B(4,2)  C(2,4)</span>
       </div>
 
-      <p style={{ fontFamily: "sans-serif", fontWeight: 600, fontSize: 13, color: T.accent, margin: "14px 0 6px" }}>Scale factor k = 2</p>
+      <p className="font-sans text-[13px] font-semibold text-[var(--lab-accent)] mt-[14px] mb-[6px]">Scale factor k = 2</p>
       <PromptBox>PREDICT: Where will each vertex land after dilation?</PromptBox>
       <DotGrid height={110} />
 
-      <p style={{ fontFamily: "sans-serif", fontWeight: 600, fontSize: 13, color: T.accent, margin: "14px 0 6px" }}>Scale factor k = 0.5</p>
+      <p className="font-sans text-[13px] font-semibold text-[var(--lab-accent)] mt-[14px] mb-[6px]">Scale factor k = 0.5</p>
       <PromptBox>PREDICT: The triangle shrinks. Where do the vertices go?</PromptBox>
       <DotGrid height={110} />
 
       <PromptBox>REVEAL: What rule describes dilation from the origin?</PromptBox>
       <WriteLines count={2} />
-      <div style={{ padding: "0 8px" }}>
-        <p style={{ fontFamily: "sans-serif", fontSize: 11, color: T.textDim, margin: "4px 0" }}>What stayed the same about the triangle? What changed?</p>
+      <div className="px-[8px]">
+        <p className="font-sans text-[11px] text-[var(--lab-text-dim)] mt-[4px]">What stayed the same about the triangle? What changed?</p>
       </div>
       <WriteLines count={2} />
 
@@ -366,38 +249,38 @@ function DilationsPage() {
 
 function SimilarityPage() {
   return (
-    <div style={{ padding: "24px 20px" }}>
+    <div className="px-[20px] py-[24px]">
       <SectionLabel color={T.accent}>Discovery Log</SectionLabel>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", margin: "12px 0 0" }}>
-        <h2 style={{ fontFamily: "sans-serif", fontSize: 16, fontWeight: 700, color: T.white, margin: 0 }}>SIMILARITY</h2>
-        <span style={{ fontFamily: "monospace", fontSize: 11, color: T.textDim }}>rigid motion + dilation</span>
+      <div className="flex justify-between items-baseline mt-[12px]">
+        <h2 className="font-sans text-[16px] font-bold text-[var(--lab-white)] m-0">SIMILARITY</h2>
+        <span className="font-mono text-[11px] text-[var(--lab-text-dim)]">rigid motion + dilation</span>
       </div>
       <ScoredLine />
 
       <PromptBox>Two figures are similar when one can be mapped to the other by a sequence of rigid motions and dilations.</PromptBox>
 
-      <p style={{ fontFamily: "sans-serif", fontWeight: 600, fontSize: 13, color: T.accent, margin: "14px 0 6px" }}>Comparing angles</p>
-      <p style={{ fontFamily: "sans-serif", fontSize: 11, color: T.text, margin: "0 0 6px", lineHeight: 1.4 }}>
+      <p className="font-sans text-[13px] font-semibold text-[var(--lab-accent)] mt-[14px] mb-[6px]">Comparing angles</p>
+      <p className="font-sans text-[11px] text-[var(--lab-text)] mb-[6px] leading-[1.4]">
         Measure or observe the angles in the original and dilated triangle.
       </p>
-      <div style={{ padding: "0 8px" }}>
-        <p style={{ fontFamily: "sans-serif", fontSize: 11, color: T.textDim }}>Are corresponding angles equal?</p>
+      <div className="px-[8px]">
+        <p className="font-sans text-[11px] text-[var(--lab-text-dim)]">Are corresponding angles equal?</p>
       </div>
       <WriteLines count={2} />
 
-      <p style={{ fontFamily: "sans-serif", fontWeight: 600, fontSize: 13, color: T.accent, margin: "14px 0 6px" }}>Comparing side lengths</p>
-      <p style={{ fontFamily: "sans-serif", fontSize: 11, color: T.text, margin: "0 0 6px", lineHeight: 1.4 }}>
+      <p className="font-sans text-[13px] font-semibold text-[var(--lab-accent)] mt-[14px] mb-[6px]">Comparing side lengths</p>
+      <p className="font-sans text-[11px] text-[var(--lab-text)] mb-[6px] leading-[1.4]">
         Calculate the ratio of corresponding side lengths.
       </p>
-      <div style={{ background: T.surface, borderRadius: 4, padding: "10px 12px", margin: "6px 0" }}>
-        <div style={{ fontFamily: "monospace", fontSize: 11, color: T.textDim, display: "flex", flexDirection: "column", gap: 6 }}>
+      <div className="bg-[var(--lab-surface)] rounded-[4px] px-[12px] py-[10px] my-[6px]">
+        <div className="font-mono text-[11px] text-[var(--lab-text-dim)] flex flex-col gap-1.5">
           <span>A'B' / AB = ___</span>
           <span>B'C' / BC = ___</span>
           <span>A'C' / AC = ___</span>
         </div>
       </div>
-      <div style={{ padding: "4px 8px" }}>
-        <p style={{ fontFamily: "sans-serif", fontSize: 11, color: T.textDim }}>What do you notice about these ratios?</p>
+      <div className="px-[8px] py-[4px]">
+        <p className="font-sans text-[11px] text-[var(--lab-text-dim)]">What do you notice about these ratios?</p>
       </div>
       <WriteLines count={2} />
 
@@ -411,29 +294,29 @@ function SimilarityPage() {
 
 function RightTrianglesPage() {
   return (
-    <div style={{ padding: "24px 20px" }}>
+    <div className="px-[20px] py-[24px]">
       <SectionLabel color={T.accent}>Discovery Log</SectionLabel>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", margin: "12px 0 0" }}>
-        <h2 style={{ fontFamily: "sans-serif", fontSize: 16, fontWeight: 700, color: T.white, margin: 0 }}>RIGHT TRIANGLES</h2>
-        <span style={{ fontFamily: "monospace", fontSize: 11, color: T.textDim }}>bridge to G-SRT</span>
+      <div className="flex justify-between items-baseline mt-[12px]">
+        <h2 className="font-sans text-[16px] font-bold text-[var(--lab-white)] m-0">RIGHT TRIANGLES</h2>
+        <span className="font-mono text-[11px] text-[var(--lab-text-dim)]">bridge to G-SRT</span>
       </div>
       <ScoredLine />
 
-      <p style={{ fontFamily: "sans-serif", fontSize: 12, color: T.text, margin: "8px 0", lineHeight: 1.5 }}>
+      <p className="font-sans text-[12px] text-[var(--lab-text)] my-[8px] leading-[1.5]">
         When similar triangles are right triangles, something powerful emerges: the ratio of sides depends only on the angle.
       </p>
 
-      <p style={{ fontFamily: "sans-serif", fontWeight: 600, fontSize: 13, color: T.accent, margin: "14px 0 6px" }}>Dilating a right triangle</p>
+      <p className="font-sans text-[13px] font-semibold text-[var(--lab-accent)] mt-[14px] mb-[6px]">Dilating a right triangle</p>
       <PromptBox>PREDICT: Scale a right triangle by k = 2. What happens to the acute angles?</PromptBox>
       <DotGrid height={120} />
       <WriteLines count={2} />
 
-      <p style={{ fontFamily: "sans-serif", fontWeight: 600, fontSize: 13, color: T.accent, margin: "14px 0 6px" }}>Side ratios in similar right triangles</p>
-      <p style={{ fontFamily: "sans-serif", fontSize: 11, color: T.text, margin: "0 0 8px", lineHeight: 1.4 }}>
+      <p className="font-sans text-[13px] font-semibold text-[var(--lab-accent)] mt-[14px] mb-[6px]">Side ratios in similar right triangles</p>
+      <p className="font-sans text-[11px] text-[var(--lab-text)] mb-[8px] leading-[1.4]">
         For two similar right triangles with the same acute angle, compare: opposite / hypotenuse.
       </p>
-      <div style={{ background: T.surface, borderRadius: 4, padding: "10px 12px", margin: "6px 0" }}>
-        <div style={{ fontFamily: "monospace", fontSize: 11, color: T.textDim, display: "flex", flexDirection: "column", gap: 6 }}>
+      <div className="bg-[var(--lab-surface)] rounded-[4px] px-[12px] py-[10px] my-[6px]">
+        <div className="font-mono text-[11px] text-[var(--lab-text-dim)] flex flex-col gap-1.5">
           <span>Original:  opp / hyp = ___</span>
           <span>Dilated:   opp / hyp = ___</span>
         </div>
@@ -442,8 +325,8 @@ function RightTrianglesPage() {
       <PromptBox>REVEAL: Why is this ratio the same regardless of triangle size?</PromptBox>
       <WriteLines count={3} />
 
-      <div style={{ background: T.surface, borderRadius: 4, padding: "10px 16px", textAlign: "center", margin: "12px 0" }}>
-        <p style={{ fontFamily: "sans-serif", fontSize: 12, color: T.info, margin: 0, fontStyle: "italic" }}>
+      <div className="bg-[var(--lab-surface)] rounded-[4px] px-[16px] py-[10px] text-center my-[12px]">
+        <p className="font-sans text-[12px] text-[var(--lab-info)] italic m-0">
           This ratio has a name. You'll meet it in Geometry: sine.
         </p>
       </div>
@@ -455,29 +338,29 @@ function RightTrianglesPage() {
 
 function CapstonePage() {
   return (
-    <div style={{ padding: "24px 20px" }}>
+    <div className="px-[20px] py-[24px]">
       <SectionLabel color={T.info}>Discovery Log</SectionLabel>
-      <h2 style={{ fontFamily: "sans-serif", fontSize: 16, fontWeight: 700, color: T.info, textTransform: "uppercase", letterSpacing: "0.05em", margin: "12px 0 4px" }}>
+      <h2 className="font-sans text-[16px] font-bold uppercase tracking-[0.05em] text-[var(--lab-info)] mt-[12px] mb-[4px]">
         Capstone: Similarity Sequences
       </h2>
       <ScoredLine />
 
-      <p style={{ fontFamily: "sans-serif", fontSize: 12, color: T.text, margin: "8px 0", lineHeight: 1.5 }}>
+      <p className="font-sans text-[12px] text-[var(--lab-text)] my-[8px] leading-[1.5]">
         Describe a sequence of transformations (rigid motions + dilation) that maps one figure to a similar figure.
       </p>
 
-      <div style={{ background: T.surface, borderRadius: 3, padding: "6px 10px", margin: "8px 0", display: "flex", gap: 12, alignItems: "center" }}>
-        <span style={{ fontFamily: "sans-serif", fontSize: 10, color: T.textDim }}>REFERENCE</span>
-        <span style={{ fontFamily: "monospace", fontSize: 12, color: T.white }}>A(1,1)  B(4,2)  C(2,4)</span>
+      <div className="bg-[var(--lab-surface)] rounded-[3px] px-[10px] py-[6px] my-[8px] flex items-center gap-3">
+        <span className="font-sans text-[10px] text-[var(--lab-text-dim)]">REFERENCE</span>
+        <span className="font-mono text-[12px] text-[var(--lab-white)]">A(1,1)  B(4,2)  C(2,4)</span>
       </div>
 
       {["STEP 1", "STEP 2"].map((step) => (
-        <div key={step} style={{ margin: "14px 0" }}>
-          <p style={{ fontFamily: "monospace", fontSize: 13, fontWeight: 700, color: T.accent, margin: "0 0 8px" }}>{step}</p>
+        <div key={step} className="my-[14px]">
+          <p className="font-mono text-[13px] font-bold text-[var(--lab-accent)] mb-[8px]">{step}</p>
           {["TRANSFORMATION TYPE", "PARAMETERS", step === "STEP 1" ? "INTERMEDIATE RESULT" : "FINAL POSITION"].map((field) => (
-            <div key={field} style={{ margin: "4px 0 4px 10px" }}>
-              <span style={{ fontFamily: "monospace", fontSize: 9, color: T.textDim, letterSpacing: "0.1em" }}>{field}</span>
-              <div style={{ borderBottom: `1px solid ${T.border}`, height: 18 }} />
+            <div key={field} className="mt-[4px] mb-[4px] ml-[10px]">
+              <span className="font-mono text-[9px] text-[var(--lab-text-dim)] tracking-[0.1em]">{field}</span>
+              <div className="h-[18px] border-b border-[var(--lab-border)]" />
             </div>
           ))}
         </div>
@@ -496,9 +379,9 @@ function CapstonePage() {
 
 function NotesPage() {
   return (
-    <div style={{ padding: "24px 20px" }}>
+    <div className="px-[20px] py-[24px]">
       <SectionLabel color={T.accent}>Discovery Log</SectionLabel>
-      <h2 style={{ fontFamily: "sans-serif", fontSize: 16, fontWeight: 700, color: T.accent, textTransform: "uppercase", letterSpacing: "0.05em", margin: "12px 0 4px" }}>
+      <h2 className="font-sans text-[16px] font-bold uppercase tracking-[0.05em] text-[var(--lab-accent)] mt-[12px] mb-[4px]">
         Notes & Observations
       </h2>
       <ScoredLine />
@@ -510,17 +393,17 @@ function NotesPage() {
 
 function BackCover() {
   return (
-    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: 32, textAlign: "center" }}>
+    <div className="min-h-screen flex flex-col items-center justify-center p-8 text-center">
       <SectionLabel>Laboratory Grade</SectionLabel>
       <ScoredLine />
-      <p style={{ fontFamily: "sans-serif", fontSize: 14, color: T.text, margin: "16px 0 4px" }}>Designed by Randall LaPoint, Jr.</p>
-      <p style={{ fontFamily: "sans-serif", fontSize: 11, color: T.textDim, margin: "0 0 4px" }}>15 years in math classrooms.</p>
-      <p style={{ fontFamily: "sans-serif", fontSize: 11, color: T.textDim }}>Building the tools that let me serve students at scale.</p>
+      <p className="font-sans text-[14px] text-[var(--lab-text)] mt-[16px] mb-[4px]">Designed by Randall LaPoint, Jr.</p>
+      <p className="font-sans text-[11px] text-[var(--lab-text-dim)] mb-[4px]">15 years in math classrooms.</p>
+      <p className="font-sans text-[11px] text-[var(--lab-text-dim)]">Building the tools that let me serve students at scale.</p>
       <ScoredLine />
-      <p style={{ fontFamily: "monospace", fontSize: 12, color: T.accent, margin: "16px 0" }}>creative-lab-five.vercel.app</p>
-      <p style={{ fontFamily: "sans-serif", fontSize: 11, color: T.textDim, margin: "0 0 4px" }}>Part of the Grade 8 Geometry Progression</p>
-      <p style={{ fontFamily: "sans-serif", fontSize: 10, color: T.textDim }}>Rigid Motions  ·  Dilations & Similarity  ·  Pythagorean Theorem</p>
-      <p style={{ fontFamily: "monospace", fontSize: 9, color: T.surfaceHi, marginTop: 24 }}>ISTE LIVE 2026</p>
+      <p className="font-mono text-[12px] text-[var(--lab-accent)] my-[16px]">creative-lab-five.vercel.app</p>
+      <p className="font-sans text-[11px] text-[var(--lab-text-dim)] mb-[4px]">Part of the Grade 8 Geometry Progression</p>
+      <p className="font-sans text-[10px] text-[var(--lab-text-dim)]">Rigid Motions  ·  Dilations & Similarity  ·  Pythagorean Theorem</p>
+      <p className="font-mono text-[9px] text-[var(--lab-surface-hi)] mt-[24px]">ISTE LIVE 2026</p>
     </div>
   );
 }
@@ -561,13 +444,12 @@ export default function LabGuideDilations() {
   };
 
   return (
-    <div style={{ background: T.bg, minHeight: "100vh", color: T.text, fontFamily: "sans-serif" }}>
+    <div className="bg-[var(--lab-bg)] min-h-screen text-[var(--lab-text)] font-sans">
       <Tabs value={activeId} onValueChange={setActiveId} className="w-full">
         <div
-          className="sticky top-0 z-10 border-b backdrop-blur"
-          style={{ background: `${T.surface}cc`, borderBottomColor: T.border }}
+          className="sticky top-0 z-10 border-b border-[var(--lab-border)] backdrop-blur bg-[color-mix(in_srgb,var(--lab-surface)_80%,transparent)]"
         >
-          <TabsList className="w-full justify-start overflow-x-auto flex-nowrap" style={{ background: "transparent" }}>
+          <TabsList className="w-full justify-start overflow-x-auto flex-nowrap bg-transparent">
             {PAGES.map((p) => (
               <TabsTrigger key={p.id} value={p.id} className="whitespace-nowrap text-[10px] tracking-[0.15em]">
                 {p.label}
@@ -588,12 +470,13 @@ export default function LabGuideDilations() {
             size="sm"
             onClick={goPrev}
             disabled={pageIndex === 0}
-            className="font-mono text-[10px]"
-            style={{ borderColor: T.border, color: pageIndex === 0 ? T.surfaceHi : T.textDim }}
+            className={`font-mono text-[10px] border-[var(--lab-border)] ${
+              pageIndex === 0 ? "text-[var(--lab-surface-hi)]" : "text-[var(--lab-text-dim)]"
+            }`}
           >
             ← PREV
           </Button>
-          <span className="font-mono text-[9px]" style={{ color: T.surfaceHi }}>
+          <span className="font-mono text-[9px] text-[var(--lab-surface-hi)]">
             {pageIndex + 1} / {PAGES.length}
           </span>
           <Button
@@ -601,8 +484,9 @@ export default function LabGuideDilations() {
             size="sm"
             onClick={goNext}
             disabled={pageIndex === PAGES.length - 1}
-            className="font-mono text-[10px]"
-            style={{ borderColor: T.border, color: pageIndex === PAGES.length - 1 ? T.surfaceHi : T.textDim }}
+            className={`font-mono text-[10px] border-[var(--lab-border)] ${
+              pageIndex === PAGES.length - 1 ? "text-[var(--lab-surface-hi)]" : "text-[var(--lab-text-dim)]"
+            }`}
           >
             NEXT →
           </Button>
