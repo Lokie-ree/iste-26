@@ -1,221 +1,80 @@
 import React, { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { Badge as ShadcnBadge } from "@/components/ui/badge";
+import { labTokens } from "@/lib/labTokens";
+import { Badge, DotGrid, ProgressDots, PromptBox, ScoredLine, SectionLabel, WriteLines } from "@/components/lab-guides/labPrimitives";
 
-const T = {
-  bg: "var(--lab-bg)",
-  surface: "var(--lab-surface)",
-  surfaceHi: "var(--lab-surface-hi)",
-  border: "var(--lab-border)",
-  text: "var(--lab-text)",
-  textDim: "var(--lab-text-dim)",
-  accent: "var(--lab-accent)",
-  accentDim: "var(--lab-accent-dim)",
-  white: "var(--lab-white)",
-  danger: "var(--lab-danger)",
-  info: "var(--lab-info)",
-};
-
-function ProgressDots({
-  total,
-  current,
-  label,
-}: { total: number; current: number; label?: string }) {
-  return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6, padding: "16px 0 8px" }}>
-      <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-        {Array.from({ length: total }, (_, i) => (
-          <div key={i} style={{
-            width: i === current ? 14 : 8, height: i === current ? 14 : 8, borderRadius: "50%",
-            background: i < current ? T.accent : i === current ? T.accent : "transparent",
-            border: i === current ? `2px solid ${T.accent}` : i < current ? "none" : `1px solid ${T.textDim}`,
-            boxShadow: i === current ? `0 0 8px ${T.accentDim}` : "none", transition: "all 0.3s ease",
-          }} />
-        ))}
-      </div>
-      {label && <span style={{ fontFamily: "monospace", fontSize: 9, color: T.surfaceHi, letterSpacing: "0.15em", textTransform: "uppercase" }}>{label}</span>}
-    </div>
-  );
-}
-
-function ScoredLine() {
-  return <Separator className="my-2" style={{ background: T.border }} />;
-}
-
-function SectionLabel({
-  children,
-  color,
-}: { children: React.ReactNode; color?: string }) {
-  return (
-    <span
-      style={{
-        fontFamily: "monospace",
-        fontSize: 9,
-        color: color || T.textDim,
-        letterSpacing: "0.2em",
-        textTransform: "uppercase",
-      }}
-    >
-      {children}
-    </span>
-  );
-}
-
-function Badge({
-  children,
-  color,
-}: { children: React.ReactNode; color?: string }) {
-  const resolved = color ?? T.accent;
-  return (
-    <ShadcnBadge
-      variant="outline"
-      className="font-mono text-[11px] px-2 py-0.5 rounded-sm border-transparent"
-      style={{ color: resolved, background: T.accentDim }}
-    >
-      {children}
-    </ShadcnBadge>
-  );
-}
-
-function PromptBox({ children }: { children: React.ReactNode }) {
-  return (
-    <div
-      style={{
-        background: T.surface,
-        borderRadius: 4,
-        padding: "8px 12px",
-        margin: "8px 0",
-      }}
-    >
-      <span
-        style={{ fontFamily: "sans-serif", fontSize: 13, color: T.white }}
-      >
-        {children}
-      </span>
-    </div>
-  );
-}
-
-function DotGrid({ height = 120 }: { height?: number }) {
-  const dots = [];
-  const spacing = 16;
-  const cols = 22;
-  const rows = Math.floor(height / spacing);
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < cols; c++) {
-      dots.push(
-        <circle
-          key={`${r}-${c}`}
-          cx={10 + c * spacing}
-          cy={10 + r * spacing}
-          r={1}
-          fill={T.textDim}
-          opacity={0.5}
-        />
-      );
-    }
-  }
-  return (
-    <div style={{ background: T.surface, borderRadius: 4, padding: 4, margin: "6px 0" }}>
-      <svg
-        width="100%"
-        height={height}
-        viewBox={`0 0 ${10 + cols * spacing} ${10 + rows * spacing}`}
-      >
-        {dots}
-      </svg>
-      <div
-        style={{
-          fontFamily: "sans-serif",
-          fontSize: 9,
-          color: T.surfaceHi,
-          padding: "0 8px 4px",
-          letterSpacing: "0.1em",
-          textTransform: "uppercase",
-        }}
-      >
-        sketch your prediction
-      </div>
-    </div>
-  );
-}
-
-function WriteLines({ count = 3 }: { count?: number }) {
-  return (
-    <div style={{ padding: "4px 8px" }}>
-      {Array.from({ length: count }, (_, i) => (
-        <div
-          key={i}
-          style={{ borderBottom: `1px solid ${T.border}`, height: 22 }}
-        />
-      ))}
-    </div>
-  );
-}
+const T = labTokens;
 
 // ── PAGES ─────────────────────────────────────────────────────
 
 function Cover() {
   return (
-    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: 32, textAlign: "center" }}>
+    <div className="min-h-screen flex flex-col items-center justify-center p-8 text-center">
       <SectionLabel>Lab Guide</SectionLabel>
       <ScoredLine />
-      <h1 style={{ fontFamily: "sans-serif", fontSize: 28, fontWeight: 700, color: T.white, margin: "24px 0 4px", lineHeight: 1.2 }}>Pythagorean</h1>
-      <h1 style={{ fontFamily: "sans-serif", fontSize: 28, fontWeight: 700, color: T.white, margin: "0 0 16px", lineHeight: 1.2 }}>Theorem</h1>
-      <p style={{ fontFamily: "sans-serif", fontSize: 14, color: T.text, margin: "0 0 4px" }}>Grade 8 Mathematics</p>
-      <p style={{ fontFamily: "sans-serif", fontSize: 12, color: T.textDim }}>IVLA STEM Club</p>
-      <div style={{ display: "flex", gap: 8, margin: "24px 0", flexWrap: "wrap", justifyContent: "center" }}>
+      <h1 className="font-sans text-[28px] font-bold text-[var(--lab-white)] mt-[24px] mb-[4px] leading-[1.2]">Pythagorean</h1>
+      <h1 className="font-sans text-[28px] font-bold text-[var(--lab-white)] mb-[16px] leading-[1.2]">Theorem</h1>
+      <p className="font-sans text-[14px] text-[var(--lab-text)] mb-[4px]">Grade 8 Mathematics</p>
+      <p className="font-sans text-[12px] text-[var(--lab-text-dim)]">IVLA STEM Club</p>
+      <div className="flex flex-wrap justify-center gap-2 my-[24px]">
         <Badge>8.G.B.6</Badge><Badge>8.G.B.7</Badge><Badge>8.G.B.8</Badge>
       </div>
       <ScoredLine />
-      <p style={{ fontFamily: "sans-serif", fontSize: 15, color: T.accent, fontStyle: "italic", margin: "16px 0", maxWidth: 320 }}>
+      <p className="font-sans text-[15px] italic text-[var(--lab-accent)] my-[16px] max-w-[320px]">
         "Why does this relationship only work for right triangles?"
       </p>
       <ScoredLine />
-      <p style={{ fontFamily: "monospace", fontSize: 11, color: T.textDim, marginTop: 24 }}>creative-lab-five.vercel.app</p>
+      <p className="font-mono text-[11px] text-[var(--lab-text-dim)] mt-[24px]">creative-lab-five.vercel.app</p>
     </div>
   );
 }
 
 function StandardsPage() {
   return (
-    <div style={{ padding: "24px 20px" }}>
+    <div className="px-[20px] py-[24px]">
       <SectionLabel>Teacher Section</SectionLabel>
-      <h2 style={{ fontFamily: "sans-serif", fontSize: 16, fontWeight: 700, color: T.accent, textTransform: "uppercase", letterSpacing: "0.05em", margin: "12px 0 4px" }}>Standards Alignment</h2>
+      <h2 className="font-sans text-[16px] font-bold uppercase tracking-[0.05em] text-[var(--lab-accent)] mt-[12px] mb-[4px]">
+        Standards Alignment
+      </h2>
       <ScoredLine />
       {[
         { code: "8.G.B.6", desc: "Explain a proof of the Pythagorean Theorem and its converse using the area of squares." },
         { code: "8.G.B.7", desc: "Apply the Pythagorean Theorem to determine unknown side lengths in right triangles in real-world and mathematical problems in two and three dimensions." },
         { code: "8.G.B.8", desc: "Apply the Pythagorean Theorem to find the distance between two points in a coordinate system." },
       ].map(({ code, desc }) => (
-        <div key={code} style={{ margin: "12px 0" }}>
-          <span style={{ fontFamily: "monospace", fontSize: 13, color: T.accent }}>{code}</span>
-          <p style={{ fontFamily: "sans-serif", fontSize: 12, color: T.text, margin: "4px 0 0 8px", lineHeight: 1.5 }}>{desc}</p>
+        <div key={code} className="my-[12px]">
+          <span className="font-mono text-[13px] text-[var(--lab-accent)]">{code}</span>
+          <p className="font-sans text-[12px] text-[var(--lab-text)] mt-[4px] ml-[8px] leading-[1.5]">{desc}</p>
         </div>
       ))}
       <ScoredLine />
       <SectionLabel>Rigor Components</SectionLabel>
-      <div style={{ margin: "10px 0" }}>
-        <p style={{ fontFamily: "sans-serif", fontSize: 12, fontWeight: 600, color: T.white, margin: "8px 0 2px" }}>Conceptual Understanding</p>
-        <p style={{ fontFamily: "sans-serif", fontSize: 11, color: T.text, margin: "0 0 0 8px", lineHeight: 1.4 }}>Students explain why the sum of the squares of the legs equals the square of the hypotenuse — through area models, not memorization.</p>
-        <p style={{ fontFamily: "sans-serif", fontSize: 12, fontWeight: 600, color: T.white, margin: "10px 0 2px" }}>Procedural Skill</p>
-        <p style={{ fontFamily: "sans-serif", fontSize: 11, color: T.text, margin: "0 0 0 8px", lineHeight: 1.4 }}>Students apply a² + b² = c² to find unknown side lengths and distance between coordinate points.</p>
-        <p style={{ fontFamily: "sans-serif", fontSize: 12, fontWeight: 600, color: T.white, margin: "10px 0 2px" }}>Application</p>
-        <p style={{ fontFamily: "sans-serif", fontSize: 11, color: T.text, margin: "0 0 0 8px", lineHeight: 1.4 }}>Students apply the theorem in real-world and mathematical problems in two and three dimensions.</p>
+      <div className="my-[10px]">
+        <p className="font-sans text-[12px] font-semibold text-[var(--lab-white)] mt-[8px] mb-[2px]">Conceptual Understanding</p>
+        <p className="font-sans text-[11px] text-[var(--lab-text)] ml-[8px] leading-[1.4]">
+          Students explain why the sum of the squares of the legs equals the square of the hypotenuse — through area models, not memorization.
+        </p>
+        <p className="font-sans text-[12px] font-semibold text-[var(--lab-white)] mt-[10px] mb-[2px]">Procedural Skill</p>
+        <p className="font-sans text-[11px] text-[var(--lab-text)] ml-[8px] leading-[1.4]">
+          Students apply a² + b² = c² to find unknown side lengths and distance between coordinate points.
+        </p>
+        <p className="font-sans text-[12px] font-semibold text-[var(--lab-white)] mt-[10px] mb-[2px]">Application</p>
+        <p className="font-sans text-[11px] text-[var(--lab-text)] ml-[8px] leading-[1.4]">
+          Students apply the theorem in real-world and mathematical problems in two and three dimensions.
+        </p>
       </div>
       <ScoredLine />
       <SectionLabel>Achievement Level Progression</SectionLabel>
       {[
-        { level: "Level 3", label: "Basic", color: T.textDim, desc: "Apply the Pythagorean Theorem to find the hypotenuse in a simple planar case without coordinates." },
-        { level: "Level 4", label: "Mastery", color: T.accent, desc: "Apply the theorem in simple planar cases and to find distance between two points in a coordinate system." },
-        { level: "Level 5", label: "Advanced", color: T.info, desc: "Apply the theorem in real-world problems in two and three dimensions. Recognize situations requiring multi-step reasoning." },
-      ].map(({ level, label, color, desc }) => (
-        <div key={level} style={{ margin: "10px 0" }}>
-          <span style={{ fontFamily: "monospace", fontSize: 12, fontWeight: 700, color }}>{level}</span>
-          <span style={{ fontFamily: "sans-serif", fontSize: 10, color: T.textDim, marginLeft: 6 }}>({label})</span>
-          <p style={{ fontFamily: "sans-serif", fontSize: 11, color: T.text, margin: "3px 0 0 8px", lineHeight: 1.4 }}>{desc}</p>
+        { level: "Level 3", label: "Basic", colorClass: "text-[var(--lab-text-dim)]", desc: "Apply the Pythagorean Theorem to find the hypotenuse in a simple planar case without coordinates." },
+        { level: "Level 4", label: "Mastery", colorClass: "text-[var(--lab-accent)]", desc: "Apply the theorem in simple planar cases and to find distance between two points in a coordinate system." },
+        { level: "Level 5", label: "Advanced", colorClass: "text-[var(--lab-info)]", desc: "Apply the theorem in real-world problems in two and three dimensions. Recognize situations requiring multi-step reasoning." },
+      ].map(({ level, label, colorClass, desc }) => (
+        <div key={level} className="my-[10px]">
+          <span className={`font-mono text-[12px] font-bold ${colorClass}`}>{level}</span>
+          <span className="font-sans text-[10px] text-[var(--lab-text-dim)] ml-[6px]">({label})</span>
+          <p className="font-sans text-[11px] text-[var(--lab-text)] mt-[3px] ml-[8px] leading-[1.4]">{desc}</p>
         </div>
       ))}
       <ProgressDots total={4} current={0} label="Teacher" />
@@ -225,9 +84,11 @@ function StandardsPage() {
 
 function PhasesPage() {
   return (
-    <div style={{ padding: "24px 20px" }}>
+    <div className="px-[20px] py-[24px]">
       <SectionLabel>Teacher Section</SectionLabel>
-      <h2 style={{ fontFamily: "sans-serif", fontSize: 16, fontWeight: 700, color: T.accent, textTransform: "uppercase", letterSpacing: "0.05em", margin: "12px 0 4px" }}>Module Phases</h2>
+      <h2 className="font-sans text-[16px] font-bold uppercase tracking-[0.05em] text-[var(--lab-accent)] mt-[12px] mb-[4px]">
+        Module Phases
+      </h2>
       <ScoredLine />
       {[
         { num: "01", title: "Area Exploration", desc: "Students manipulate squares built on each side of a right triangle. Drag, resize, observe. The visual proof emerges: the two smaller squares tile perfectly into the larger one. No formula yet — just area." },
@@ -235,19 +96,19 @@ function PhasesPage() {
         { num: "03", title: "Coordinate Distance", desc: "The earned reveal: connect the theorem to distance. Two points on a coordinate grid. Draw the right triangle. The hypotenuse IS the distance. Students discover the distance formula as a consequence of what they already know." },
         { num: "04", title: "Capstone: Real-World & 3D", desc: "Multi-step problems in context. Find the diagonal of a rectangular prism. Calculate the distance a drone travels. Level 5 — applying the theorem in situations that require constructing the right triangle first." },
       ].map(({ num, title, desc }) => (
-        <div key={num} style={{ margin: "14px 0" }}>
-          <div style={{ display: "flex", alignItems: "baseline", gap: 10 }}>
-            <span style={{ fontFamily: "monospace", fontSize: 14, color: T.accent }}>{num}</span>
-            <span style={{ fontFamily: "sans-serif", fontSize: 13, fontWeight: 700, color: T.white }}>{title}</span>
+        <div key={num} className="my-[14px]">
+          <div className="flex items-baseline gap-2.5">
+            <span className="font-mono text-[14px] text-[var(--lab-accent)]">{num}</span>
+            <span className="font-sans text-[13px] font-bold text-[var(--lab-white)]">{title}</span>
           </div>
-          <p style={{ fontFamily: "sans-serif", fontSize: 11, color: T.text, margin: "4px 0 0 24px", lineHeight: 1.5 }}>{desc}</p>
+          <p className="font-sans text-[11px] text-[var(--lab-text)] mt-[4px] ml-[24px] leading-[1.5]">{desc}</p>
         </div>
       ))}
       <ScoredLine />
-      <div style={{ background: T.surface, borderRadius: 4, padding: "12px 16px", textAlign: "center", margin: "8px 0" }}>
-        <p style={{ fontFamily: "sans-serif", fontSize: 14, color: T.accent, margin: "0 0 4px" }}>See the proof before you see the formula.</p>
-        <p style={{ fontFamily: "sans-serif", fontSize: 14, color: T.accent, margin: "0 0 8px" }}>The equation names what the squares already showed.</p>
-        <p style={{ fontFamily: "sans-serif", fontSize: 10, color: T.textDim, margin: 0 }}>— creative-lab design philosophy</p>
+      <div className="bg-[var(--lab-surface)] rounded-[4px] px-4 py-3 text-center my-[8px]">
+        <p className="font-sans text-[14px] text-[var(--lab-accent)] mb-[4px]">See the proof before you see the formula.</p>
+        <p className="font-sans text-[14px] text-[var(--lab-accent)] mb-[8px]">The equation names what the squares already showed.</p>
+        <p className="font-sans text-[10px] text-[var(--lab-text-dim)]">— creative-lab design philosophy</p>
       </div>
       <ProgressDots total={4} current={1} label="Teacher" />
     </div>
@@ -256,9 +117,11 @@ function PhasesPage() {
 
 function ImplementationPage() {
   return (
-    <div style={{ padding: "24px 20px" }}>
+    <div className="px-[20px] py-[24px]">
       <SectionLabel>Teacher Section</SectionLabel>
-      <h2 style={{ fontFamily: "sans-serif", fontSize: 16, fontWeight: 700, color: T.accent, textTransform: "uppercase", letterSpacing: "0.05em", margin: "12px 0 4px" }}>Implementation Notes</h2>
+      <h2 className="font-sans text-[16px] font-bold uppercase tracking-[0.05em] text-[var(--lab-accent)] mt-[12px] mb-[4px]">
+        Implementation Notes
+      </h2>
       <ScoredLine />
       {[
         { label: "PREREQUISITE", value: "Modules 1 & 2 complete (rigid motions, dilations). Students should be comfortable with coordinate rules." },
@@ -266,13 +129,13 @@ function ImplementationPage() {
         { label: "DEVICES", value: "Desktop or laptop recommended; tablet supported" },
         { label: "SHAPE FAMILY", value: "The scalene triangle evolves. Module 3 introduces a right-triangle variant of the familiar shape — same vertex labeling, new property to discover." },
       ].map(({ label, value }) => (
-        <div key={label} style={{ margin: "10px 0" }}>
-          <span style={{ fontFamily: "monospace", fontSize: 10, color: T.textDim }}>{label}</span>
-          <p style={{ fontFamily: "sans-serif", fontSize: 12, color: T.text, margin: "3px 0 0 10px", lineHeight: 1.4 }}>{value}</p>
+        <div key={label} className="my-[10px]">
+          <span className="font-mono text-[10px] text-[var(--lab-text-dim)]">{label}</span>
+          <p className="font-sans text-[12px] text-[var(--lab-text)] mt-[3px] ml-[10px] leading-[1.4]">{value}</p>
         </div>
       ))}
-      <div style={{ background: T.surface, borderRadius: 4, padding: "8px 14px", margin: "12px 0" }}>
-        <span style={{ fontFamily: "monospace", fontSize: 13, color: T.accent }}>creative-lab-five.vercel.app</span>
+      <div className="bg-[var(--lab-surface)] rounded-[4px] px-[14px] py-[8px] my-[12px]">
+        <span className="font-mono text-[13px] text-[var(--lab-accent)]">creative-lab-five.vercel.app</span>
       </div>
       <ScoredLine />
       <SectionLabel>What to Watch For</SectionLabel>
@@ -283,9 +146,9 @@ function ImplementationPage() {
         { title: "3D extension in capstone", desc: "Some students will struggle to construct the right triangle in 3D problems. Encourage them to draw the 2D slice first, then extend. This is genuine Type III reasoning." },
         { title: "Engagement signals", desc: "\"Wait, the distance formula is just this?\" \"That's sick.\" \"Can I find the distance between any two points?\" These mean the instrument is working." },
       ].map(({ title, desc }) => (
-        <div key={title} style={{ margin: "8px 0" }}>
-          <p style={{ fontFamily: "sans-serif", fontSize: 11, fontWeight: 600, color: T.white, margin: "0 0 2px" }}>{title}</p>
-          <p style={{ fontFamily: "sans-serif", fontSize: 10, color: T.text, margin: "0 0 0 8px", lineHeight: 1.4 }}>{desc}</p>
+        <div key={title} className="my-[8px]">
+          <p className="font-sans text-[11px] font-semibold text-[var(--lab-white)] mb-[2px]">{title}</p>
+          <p className="font-sans text-[10px] text-[var(--lab-text)] ml-[8px] leading-[1.4]">{desc}</p>
         </div>
       ))}
       <ProgressDots total={4} current={2} label="Teacher" />
@@ -295,9 +158,11 @@ function ImplementationPage() {
 
 function ClassroomPage() {
   return (
-    <div style={{ padding: "24px 20px" }}>
+    <div className="px-[20px] py-[24px]">
       <SectionLabel>Teacher Section</SectionLabel>
-      <h2 style={{ fontFamily: "sans-serif", fontSize: 16, fontWeight: 700, color: T.accent, textTransform: "uppercase", letterSpacing: "0.05em", margin: "12px 0 4px" }}>Classroom Integration</h2>
+      <h2 className="font-sans text-[16px] font-bold uppercase tracking-[0.05em] text-[var(--lab-accent)] mt-[12px] mb-[4px]">
+        Classroom Integration
+      </h2>
       <ScoredLine />
       {[
         { when: "Before the module", move: "Draw a right triangle on the board. Build squares on each side. Ask: 'Is there a relationship between the areas of these squares?' Let students conjecture." },
@@ -306,9 +171,9 @@ function ClassroomPage() {
         { when: "At Phase 3", move: "Connect explicitly: 'You already know how to find the third side. What if the two points ARE two vertices of a right triangle?' Let them construct the third vertex themselves." },
         { when: "During the capstone", move: "3D problems require students to decompose the situation into right triangles. This is Type III reasoning — they must model before they calculate. Celebrate the modeling, not just the answer." },
       ].map(({ when, move }) => (
-        <div key={when} style={{ margin: "10px 0" }}>
-          <p style={{ fontFamily: "sans-serif", fontSize: 11, fontWeight: 600, color: T.accent, margin: "0 0 3px" }}>{when}</p>
-          <p style={{ fontFamily: "sans-serif", fontSize: 11, color: T.text, margin: "0 0 0 8px", lineHeight: 1.4 }}>{move}</p>
+        <div key={when} className="my-[10px]">
+          <p className="font-sans text-[11px] font-semibold text-[var(--lab-accent)] mb-[3px]">{when}</p>
+          <p className="font-sans text-[11px] text-[var(--lab-text)] ml-[8px] leading-[1.4]">{move}</p>
         </div>
       ))}
       <ProgressDots total={4} current={3} label="Teacher" />
@@ -320,22 +185,28 @@ function ClassroomPage() {
 
 function AreaProofPage() {
   return (
-    <div style={{ padding: "24px 20px" }}>
+    <div className="px-[20px] py-[24px]">
       <SectionLabel color={T.accent}>Discovery Log</SectionLabel>
-      <div style={{ display: "flex", gap: 16, margin: "12px 0 0" }}>
-        <div style={{ flex: 1 }}><span style={{ fontFamily: "sans-serif", fontSize: 10, color: T.textDim }}>NAME</span><div style={{ borderBottom: `1px solid ${T.border}`, height: 16 }} /></div>
-        <div style={{ flex: 1 }}><span style={{ fontFamily: "sans-serif", fontSize: 10, color: T.textDim }}>DATE</span><div style={{ borderBottom: `1px solid ${T.border}`, height: 16 }} /></div>
+      <div className="flex gap-4 mt-[12px]">
+        <div className="flex-1">
+          <span className="font-sans text-[10px] text-[var(--lab-text-dim)]">NAME</span>
+          <div className="border-b border-[var(--lab-border)] h-[16px]" />
+        </div>
+        <div className="flex-1">
+          <span className="font-sans text-[10px] text-[var(--lab-text-dim)]">DATE</span>
+          <div className="border-b border-[var(--lab-border)] h-[16px]" />
+        </div>
       </div>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", margin: "14px 0 0" }}>
-        <h2 style={{ fontFamily: "sans-serif", fontSize: 16, fontWeight: 700, color: T.white, margin: 0 }}>THE AREA PROOF</h2>
-        <span style={{ fontFamily: "monospace", fontSize: 11, color: T.textDim }}>a² + b² = ?</span>
+      <div className="flex justify-between items-baseline mt-[14px]">
+        <h2 className="font-sans text-[16px] font-bold text-[var(--lab-white)] m-0">THE AREA PROOF</h2>
+        <span className="font-mono text-[11px] text-[var(--lab-text-dim)]">a² + b² = ?</span>
       </div>
       <ScoredLine />
-      <p style={{ fontFamily: "sans-serif", fontSize: 12, color: T.text, margin: "8px 0", lineHeight: 1.5 }}>
+      <p className="font-sans text-[12px] text-[var(--lab-text)] my-[8px] leading-[1.5]">
         Build squares on each side of a right triangle. Measure or calculate their areas.
       </p>
-      <div style={{ background: T.surface, borderRadius: 4, padding: "10px 12px", margin: "8px 0" }}>
-        <div style={{ fontFamily: "monospace", fontSize: 11, color: T.textDim, display: "flex", flexDirection: "column", gap: 8 }}>
+      <div className="bg-[var(--lab-surface)] rounded-[4px] px-[12px] py-[10px] my-[8px]">
+        <div className="font-mono text-[11px] text-[var(--lab-text-dim)] flex flex-col gap-2">
           <span>Square on side a:  area = ___</span>
           <span>Square on side b:  area = ___</span>
           <span>Square on side c:  area = ___</span>
@@ -355,31 +226,31 @@ function AreaProofPage() {
 
 function SideLengthsPage() {
   return (
-    <div style={{ padding: "24px 20px" }}>
+    <div className="px-[20px] py-[24px]">
       <SectionLabel color={T.accent}>Discovery Log</SectionLabel>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", margin: "12px 0 0" }}>
-        <h2 style={{ fontFamily: "sans-serif", fontSize: 16, fontWeight: 700, color: T.white, margin: 0 }}>FINDING SIDE LENGTHS</h2>
-        <span style={{ fontFamily: "monospace", fontSize: 11, color: T.textDim }}>a² + b² = c²</span>
+      <div className="flex justify-between items-baseline mt-[12px]">
+        <h2 className="font-sans text-[16px] font-bold text-[var(--lab-white)] m-0">FINDING SIDE LENGTHS</h2>
+        <span className="font-mono text-[11px] text-[var(--lab-text-dim)]">a² + b² = c²</span>
       </div>
       <ScoredLine />
 
-      <p style={{ fontFamily: "sans-serif", fontWeight: 600, fontSize: 13, color: T.accent, margin: "12px 0 6px" }}>Finding the hypotenuse</p>
-      <div style={{ background: T.surface, borderRadius: 4, padding: "8px 12px", margin: "4px 0" }}>
-        <span style={{ fontFamily: "monospace", fontSize: 12, color: T.white }}>a = 3, b = 4, c = ?</span>
+      <p className="font-sans text-[13px] font-semibold text-[var(--lab-accent)] mt-[12px] mb-[6px]">Finding the hypotenuse</p>
+      <div className="bg-[var(--lab-surface)] rounded-[4px] px-[12px] py-[8px] my-[4px]">
+        <span className="font-mono text-[12px] text-[var(--lab-white)]">a = 3, b = 4, c = ?</span>
       </div>
       <PromptBox>PREDICT: What is c?</PromptBox>
       <WriteLines count={2} />
 
-      <p style={{ fontFamily: "sans-serif", fontWeight: 600, fontSize: 13, color: T.accent, margin: "14px 0 6px" }}>Finding a leg</p>
-      <div style={{ background: T.surface, borderRadius: 4, padding: "8px 12px", margin: "4px 0" }}>
-        <span style={{ fontFamily: "monospace", fontSize: 12, color: T.white }}>a = ?, b = 5, c = 13</span>
+      <p className="font-sans text-[13px] font-semibold text-[var(--lab-accent)] mt-[14px] mb-[6px]">Finding a leg</p>
+      <div className="bg-[var(--lab-surface)] rounded-[4px] px-[12px] py-[8px] my-[4px]">
+        <span className="font-mono text-[12px] text-[var(--lab-white)]">a = ?, b = 5, c = 13</span>
       </div>
       <PromptBox>PREDICT: What is a? How is this different from finding c?</PromptBox>
       <WriteLines count={3} />
 
-      <p style={{ fontFamily: "sans-serif", fontWeight: 600, fontSize: 13, color: T.accent, margin: "14px 0 6px" }}>Non-integer result</p>
-      <div style={{ background: T.surface, borderRadius: 4, padding: "8px 12px", margin: "4px 0" }}>
-        <span style={{ fontFamily: "monospace", fontSize: 12, color: T.white }}>a = 1, b = 1, c = ?</span>
+      <p className="font-sans text-[13px] font-semibold text-[var(--lab-accent)] mt-[14px] mb-[6px]">Non-integer result</p>
+      <div className="bg-[var(--lab-surface)] rounded-[4px] px-[12px] py-[8px] my-[4px]">
+        <span className="font-mono text-[12px] text-[var(--lab-white)]">a = 1, b = 1, c = ?</span>
       </div>
       <PromptBox>REVEAL: What is c? Express it exactly, then as a decimal.</PromptBox>
       <WriteLines count={2} />
@@ -391,27 +262,27 @@ function SideLengthsPage() {
 
 function CoordinateDistancePage() {
   return (
-    <div style={{ padding: "24px 20px" }}>
+    <div className="px-[20px] py-[24px]">
       <SectionLabel color={T.accent}>Discovery Log</SectionLabel>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", margin: "12px 0 0" }}>
-        <h2 style={{ fontFamily: "sans-serif", fontSize: 16, fontWeight: 700, color: T.white, margin: 0 }}>COORDINATE DISTANCE</h2>
-        <span style={{ fontFamily: "monospace", fontSize: 11, color: T.textDim }}>d = √(Δx² + Δy²)</span>
+      <div className="flex justify-between items-baseline mt-[12px]">
+        <h2 className="font-sans text-[16px] font-bold text-[var(--lab-white)] m-0">COORDINATE DISTANCE</h2>
+        <span className="font-mono text-[11px] text-[var(--lab-text-dim)]">d = √(Δx² + Δy²)</span>
       </div>
       <ScoredLine />
 
-      <p style={{ fontFamily: "sans-serif", fontSize: 12, color: T.text, margin: "8px 0", lineHeight: 1.5 }}>
+      <p className="font-sans text-[12px] text-[var(--lab-text)] my-[8px] leading-[1.5]">
         Plot two points. Draw a right triangle using horizontal and vertical segments. The hypotenuse is the distance.
       </p>
 
-      <div style={{ background: T.surface, borderRadius: 3, padding: "6px 10px", margin: "8px 0" }}>
-        <span style={{ fontFamily: "monospace", fontSize: 12, color: T.white }}>Point 1: (1, 2)    Point 2: (4, 6)</span>
+      <div className="bg-[var(--lab-surface)] rounded-[3px] px-[10px] py-[6px] my-[8px]">
+        <span className="font-mono text-[12px] text-[var(--lab-white)]">Point 1: (1, 2)    Point 2: (4, 6)</span>
       </div>
 
       <PromptBox>PREDICT: What are the horizontal and vertical distances?</PromptBox>
       <DotGrid height={140} />
 
-      <div style={{ background: T.surface, borderRadius: 4, padding: "10px 12px", margin: "8px 0" }}>
-        <div style={{ fontFamily: "monospace", fontSize: 11, color: T.textDim, display: "flex", flexDirection: "column", gap: 6 }}>
+      <div className="bg-[var(--lab-surface)] rounded-[4px] px-[12px] py-[10px] my-[8px]">
+        <div className="font-mono text-[11px] text-[var(--lab-text-dim)] flex flex-col gap-1.5">
           <span>Horizontal distance (Δx): ___</span>
           <span>Vertical distance (Δy):   ___</span>
           <span>Distance (hypotenuse):    ___</span>
@@ -421,8 +292,8 @@ function CoordinateDistancePage() {
       <PromptBox>REVEAL: How is finding distance the same as finding a hypotenuse?</PromptBox>
       <WriteLines count={3} />
 
-      <div style={{ background: T.surface, borderRadius: 4, padding: "10px 16px", textAlign: "center", margin: "12px 0" }}>
-        <p style={{ fontFamily: "sans-serif", fontSize: 12, color: T.info, margin: 0, fontStyle: "italic" }}>
+      <div className="bg-[var(--lab-surface)] rounded-[4px] px-[16px] py-[10px] text-center my-[12px]">
+        <p className="font-sans text-[12px] text-[var(--lab-info)] italic m-0">
           The distance formula isn't new. It's the Pythagorean Theorem on a coordinate grid.
         </p>
       </div>
@@ -434,29 +305,31 @@ function CoordinateDistancePage() {
 
 function CapstonePage() {
   return (
-    <div style={{ padding: "24px 20px" }}>
+    <div className="px-[20px] py-[24px]">
       <SectionLabel color={T.info}>Discovery Log</SectionLabel>
-      <h2 style={{ fontFamily: "sans-serif", fontSize: 16, fontWeight: 700, color: T.info, textTransform: "uppercase", letterSpacing: "0.05em", margin: "12px 0 4px" }}>Capstone: Real-World & 3D</h2>
+      <h2 className="font-sans text-[16px] font-bold uppercase tracking-[0.05em] text-[var(--lab-info)] mt-[12px] mb-[4px]">
+        Capstone: Real-World & 3D
+      </h2>
       <ScoredLine />
 
-      <p style={{ fontFamily: "sans-serif", fontWeight: 600, fontSize: 13, color: T.accent, margin: "12px 0 6px" }}>Problem 1: The Ladder</p>
-      <p style={{ fontFamily: "sans-serif", fontSize: 11, color: T.text, margin: "0 0 6px", lineHeight: 1.4 }}>
+      <p className="font-sans text-[13px] font-semibold text-[var(--lab-accent)] mt-[12px] mb-[6px]">Problem 1: The Ladder</p>
+      <p className="font-sans text-[11px] text-[var(--lab-text)] mb-[6px] leading-[1.4]">
         A 10-foot ladder leans against a wall. The base is 6 feet from the wall. How high does the ladder reach?
       </p>
       <PromptBox>Draw the right triangle. Label the sides. Solve.</PromptBox>
       <DotGrid height={100} />
       <WriteLines count={2} />
 
-      <p style={{ fontFamily: "sans-serif", fontWeight: 600, fontSize: 13, color: T.accent, margin: "14px 0 6px" }}>Problem 2: Coordinate Distance</p>
-      <p style={{ fontFamily: "sans-serif", fontSize: 11, color: T.text, margin: "0 0 6px", lineHeight: 1.4 }}>
+      <p className="font-sans text-[13px] font-semibold text-[var(--lab-accent)] mt-[14px] mb-[6px]">Problem 2: Coordinate Distance</p>
+      <p className="font-sans text-[11px] text-[var(--lab-text)] mb-[6px] leading-[1.4]">
         Find the distance between (−3, −1) and (5, 3).
       </p>
       <PromptBox>Construct the right triangle on the coordinate grid. Calculate.</PromptBox>
       <DotGrid height={100} />
       <WriteLines count={2} />
 
-      <p style={{ fontFamily: "sans-serif", fontWeight: 600, fontSize: 13, color: T.info, margin: "14px 0 6px" }}>Problem 3: 3D Extension</p>
-      <p style={{ fontFamily: "sans-serif", fontSize: 11, color: T.text, margin: "0 0 6px", lineHeight: 1.4 }}>
+      <p className="font-sans text-[13px] font-semibold text-[var(--lab-info)] mt-[14px] mb-[6px]">Problem 3: 3D Extension</p>
+      <p className="font-sans text-[11px] text-[var(--lab-text)] mb-[6px] leading-[1.4]">
         A rectangular box is 3 ft × 4 ft × 12 ft. Find the length of the longest diagonal (corner to opposite corner).
       </p>
       <PromptBox>Hint: Find the diagonal of the base first. Then use it as a leg.</PromptBox>
@@ -473,9 +346,11 @@ function CapstonePage() {
 
 function NotesPage() {
   return (
-    <div style={{ padding: "24px 20px" }}>
+    <div className="px-[20px] py-[24px]">
       <SectionLabel color={T.accent}>Discovery Log</SectionLabel>
-      <h2 style={{ fontFamily: "sans-serif", fontSize: 16, fontWeight: 700, color: T.accent, textTransform: "uppercase", letterSpacing: "0.05em", margin: "12px 0 4px" }}>Notes & Observations</h2>
+      <h2 className="font-sans text-[16px] font-bold uppercase tracking-[0.05em] text-[var(--lab-accent)] mt-[12px] mb-[4px]">
+        Notes & Observations
+      </h2>
       <ScoredLine />
       <DotGrid height={440} />
       <ProgressDots total={5} current={4} label="Discovery Log" />
@@ -485,17 +360,17 @@ function NotesPage() {
 
 function BackCover() {
   return (
-    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: 32, textAlign: "center" }}>
+    <div className="min-h-screen flex flex-col items-center justify-center p-8 text-center">
       <SectionLabel>Laboratory Grade</SectionLabel>
       <ScoredLine />
-      <p style={{ fontFamily: "sans-serif", fontSize: 14, color: T.text, margin: "16px 0 4px" }}>Designed by Randall LaPoint, Jr.</p>
-      <p style={{ fontFamily: "sans-serif", fontSize: 11, color: T.textDim, margin: "0 0 4px" }}>15 years in math classrooms.</p>
-      <p style={{ fontFamily: "sans-serif", fontSize: 11, color: T.textDim }}>Building the tools that let me serve students at scale.</p>
+      <p className="font-sans text-[14px] text-[var(--lab-text)] mt-[16px] mb-[4px]">Designed by Randall LaPoint, Jr.</p>
+      <p className="font-sans text-[11px] text-[var(--lab-text-dim)] mb-[4px]">15 years in math classrooms.</p>
+      <p className="font-sans text-[11px] text-[var(--lab-text-dim)]">Building the tools that let me serve students at scale.</p>
       <ScoredLine />
-      <p style={{ fontFamily: "monospace", fontSize: 12, color: T.accent, margin: "16px 0" }}>creative-lab-five.vercel.app</p>
-      <p style={{ fontFamily: "sans-serif", fontSize: 11, color: T.textDim, margin: "0 0 4px" }}>Part of the Grade 8 Geometry Progression</p>
-      <p style={{ fontFamily: "sans-serif", fontSize: 10, color: T.textDim }}>Rigid Motions  ·  Dilations & Similarity  ·  Pythagorean Theorem</p>
-      <p style={{ fontFamily: "monospace", fontSize: 9, color: T.surfaceHi, marginTop: 24 }}>ISTE LIVE 2026</p>
+      <p className="font-mono text-[12px] text-[var(--lab-accent)] my-[16px]">creative-lab-five.vercel.app</p>
+      <p className="font-sans text-[11px] text-[var(--lab-text-dim)] mb-[4px]">Part of the Grade 8 Geometry Progression</p>
+      <p className="font-sans text-[10px] text-[var(--lab-text-dim)]">Rigid Motions  ·  Dilations & Similarity  ·  Pythagorean Theorem</p>
+      <p className="font-mono text-[9px] text-[var(--lab-surface-hi)] mt-[24px]">ISTE LIVE 2026</p>
     </div>
   );
 }
@@ -533,13 +408,12 @@ export default function LabGuidePythagorean() {
     if (pageIndex < PAGES.length - 1) setActiveId(PAGES[pageIndex + 1].id);
   };
   return (
-    <div style={{ background: T.bg, minHeight: "100vh", color: T.text, fontFamily: "sans-serif" }}>
+    <div className="bg-[var(--lab-bg)] min-h-screen text-[var(--lab-text)] font-sans">
       <Tabs value={activeId} onValueChange={setActiveId} className="w-full">
         <div
-          className="sticky top-0 z-10 border-b backdrop-blur"
-          style={{ background: `${T.surface}cc`, borderBottomColor: T.border }}
+          className="sticky top-0 z-10 border-b border-[var(--lab-border)] backdrop-blur bg-[color-mix(in_srgb,var(--lab-surface)_80%,transparent)]"
         >
-          <TabsList className="w-full justify-start overflow-x-auto flex-nowrap" style={{ background: "transparent" }}>
+          <TabsList className="w-full justify-start overflow-x-auto flex-nowrap bg-transparent">
             {PAGES.map((p) => (
               <TabsTrigger key={p.id} value={p.id} className="whitespace-nowrap text-[10px] tracking-[0.15em]">
                 {p.label}
@@ -560,12 +434,13 @@ export default function LabGuidePythagorean() {
             size="sm"
             onClick={goPrev}
             disabled={pageIndex === 0}
-            className="font-mono text-[10px]"
-            style={{ borderColor: T.border, color: pageIndex === 0 ? T.surfaceHi : T.textDim }}
+            className={`font-mono text-[10px] border-[var(--lab-border)] ${
+              pageIndex === 0 ? "text-[var(--lab-surface-hi)]" : "text-[var(--lab-text-dim)]"
+            }`}
           >
             ← PREV
           </Button>
-          <span className="font-mono text-[9px]" style={{ color: T.surfaceHi }}>
+          <span className="font-mono text-[9px] text-[var(--lab-surface-hi)]">
             {pageIndex + 1} / {PAGES.length}
           </span>
           <Button
@@ -573,8 +448,9 @@ export default function LabGuidePythagorean() {
             size="sm"
             onClick={goNext}
             disabled={pageIndex === PAGES.length - 1}
-            className="font-mono text-[10px]"
-            style={{ borderColor: T.border, color: pageIndex === PAGES.length - 1 ? T.surfaceHi : T.textDim }}
+            className={`font-mono text-[10px] border-[var(--lab-border)] ${
+              pageIndex === PAGES.length - 1 ? "text-[var(--lab-surface-hi)]" : "text-[var(--lab-text-dim)]"
+            }`}
           >
             NEXT →
           </Button>
