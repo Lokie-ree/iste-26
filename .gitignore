@@ -18,8 +18,10 @@ dist-ssr
 .idea
 .DS_Store
 .cursor/
+.claude/
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+.vercel

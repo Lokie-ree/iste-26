@@ -3,7 +3,7 @@
 Discovery-first learning experiences for the LSSM Grade 8 Geometry progression.  
 Built for the IVLA STEM Club. Presented at ISTE LIVE 2026.
 
-**[creative-lab-five.vercel.app](https://creative-lab-five.vercel.app)**
+**[iste-26.vercel.app](https://iste-26.vercel.app)**
 
 ---
 
