@@ -39,7 +39,7 @@ function StandardsPage() {
       </h2>
       <ScoredLine />
       {[
-        { code: "8.G.B.6", desc: "Explain a proof of the Pythagorean Theorem and its converse using the area of squares." },
+        { code: "8.G.B.6", desc: "Explain a proof of the Pythagorean Theorem and its converse using the area of squares. Phase 1 builds this conceptual foundation before the theorem is applied in Phases 2–4." },
         { code: "8.G.B.7", desc: "Apply the Pythagorean Theorem to determine unknown side lengths in right triangles in real-world and mathematical problems in two and three dimensions." },
         { code: "8.G.B.8", desc: "Apply the Pythagorean Theorem to find the distance between two points in a coordinate system." },
       ].map(({ code, desc }) => (
@@ -91,10 +91,10 @@ function PhasesPage() {
       </h2>
       <ScoredLine />
       {[
-        { num: "01", title: "Area Exploration", desc: "Students manipulate squares built on each side of a right triangle. Drag, resize, observe. The visual proof emerges: the two smaller squares tile perfectly into the larger one. No formula yet — just area." },
-        { num: "02", title: "Predict & Reveal: Side Lengths", desc: "Given two sides, predict the third. The reveal shows the calculation alongside the visual proof. Students see that a² + b² = c² is a description of what the areas already showed them." },
-        { num: "03", title: "Coordinate Distance", desc: "The earned reveal: connect the theorem to distance. Two points on a coordinate grid. Draw the right triangle. The hypotenuse IS the distance. Students discover the distance formula as a consequence of what they already know." },
-        { num: "04", title: "Capstone: Real-World & 3D", desc: "Multi-step problems in context. Find the diagonal of a rectangular prism. Calculate the distance a drone travels. Level 5 — applying the theorem in situations that require constructing the right triangle first." },
+        { num: "01", title: "Visual Proof", desc: "Students predict the area of the hypotenuse square numerically for known Pythagorean triples. The relationship a² + b² = c² is earned as a formula label for what the squares already showed. No drag — the interaction is numeric input." },
+        { num: "02", title: "Converse", desc: "Does a² + b² = c² hold? Students test right and non-right triangles with a YES/NO toggle and a numeric check. Seeing the relationship fail on a non-right triple makes the converse meaningful." },
+        { num: "03", title: "Unknown Side Lengths", desc: "Apply the theorem to find the missing leg or hypotenuse. The progression from finding c to isolating a leg reveals whether students understand the equation structurally." },
+        { num: "04", title: "Coordinate Distance", desc: "Construct the hidden right triangle on a coordinate grid; the hypotenuse IS the distance. The distance formula is earned as a consequence of what students already know." },
       ].map(({ num, title, desc }) => (
         <div key={num} className="my-[14px]">
           <div className="flex items-baseline gap-2.5">
@@ -141,9 +141,8 @@ function ImplementationPage() {
       <SectionLabel>What to Watch For</SectionLabel>
       {[
         { title: "Confusing legs and hypotenuse", desc: "The area model in Phase 1 anchors this. If a student misidentifies the hypotenuse, redirect to the visual: 'Which is the longest side? Which square is biggest?'" },
-        { title: "The non-right triangle test", desc: "Students should test the theorem on non-right triangles and see it fail. This is how the converse becomes meaningful — not by memorizing it, but by seeing the breakdown." },
+        { title: "The non-right triangle test (Phase 2)", desc: "Students should see 5² + 6² ≠ 9². Let them verify. The converse is only meaningful if they've seen it fail." },
         { title: "Distance formula as discovery", desc: "Phase 3 is where many students have an 'aha' moment. The distance formula isn't a new thing to memorize — it's the Pythagorean Theorem on a coordinate grid. Watch for that recognition." },
-        { title: "3D extension in capstone", desc: "Some students will struggle to construct the right triangle in 3D problems. Encourage them to draw the 2D slice first, then extend. This is genuine Type III reasoning." },
         { title: "Engagement signals", desc: "\"Wait, the distance formula is just this?\" \"That's sick.\" \"Can I find the distance between any two points?\" These mean the instrument is working." },
       ].map(({ title, desc }) => (
         <div key={title} className="my-[8px]">
@@ -167,9 +166,9 @@ function ClassroomPage() {
       {[
         { when: "Before the module", move: "Draw a right triangle on the board. Build squares on each side. Ask: 'Is there a relationship between the areas of these squares?' Let students conjecture." },
         { when: "During Phase 1", move: "This is the proof phase. Students should spend real time here. Resist jumping to the formula. The visual proof IS the understanding — the formula is just shorthand." },
-        { when: "During Phase 2", move: "Watch for students who can find the hypotenuse but struggle to find a leg. This reveals whether they understand the equation structurally or just procedurally." },
-        { when: "At Phase 3", move: "Connect explicitly: 'You already know how to find the third side. What if the two points ARE two vertices of a right triangle?' Let them construct the third vertex themselves." },
-        { when: "During the capstone", move: "3D problems require students to decompose the situation into right triangles. This is Type III reasoning — they must model before they calculate. Celebrate the modeling, not just the answer." },
+        { when: "During Phase 2 (Converse)", move: "Watch students test whether 5-6-9 is a right triangle. Let them compute 5² + 6² and compare to 9². The converse is meaningful only after they've seen the relationship fail. Resist explaining why — the arithmetic speaks for itself." },
+        { when: "At Phase 3 (Unknown Side Lengths)", move: "Watch for students who can find the hypotenuse but struggle to isolate a leg. The equation is structural — c² − a² = b². If a student always places the unknown as c, redirect to the visual: 'Which square is missing? Set up the equation from that side.' This reveals whether they understand the theorem or just the most common procedure." },
+        { when: "At Phase 4 (Coordinate Distance)", move: "Connect explicitly: 'You already know how to find the third side. What if the two points ARE two vertices of a right triangle?' Let them construct the third vertex themselves." },
       ].map(({ when, move }) => (
         <div key={when} className="my-[10px]">
           <p className="font-sans text-[11px] font-semibold text-[var(--lab-accent)] mb-[3px]">{when}</p>
@@ -224,6 +223,42 @@ function AreaProofPage() {
   );
 }
 
+function ConversePage() {
+  return (
+    <div className="px-[20px] py-[24px]">
+      <SectionLabel color={T.accent}>Discovery Log</SectionLabel>
+      <div className="flex justify-between items-baseline mt-[12px]">
+        <h2 className="font-sans text-[16px] font-bold text-[var(--lab-white)] m-0">THE CONVERSE</h2>
+        <span className="font-mono text-[11px] text-[var(--lab-text-dim)]">a² + b² = c²?</span>
+      </div>
+      <ScoredLine />
+
+      <p className="font-sans text-[12px] text-[var(--lab-text)] my-[8px] leading-[1.5]">
+        The theorem says: IF a triangle is a right triangle, THEN a² + b² = c². Does the reverse hold?
+      </p>
+
+      <p className="font-sans text-[13px] font-semibold text-[var(--lab-accent)] mt-[14px] mb-[6px]">Test 1</p>
+      <div className="bg-[var(--lab-surface)] rounded-[3px] px-[10px] py-[6px] my-[4px]">
+        <span className="font-mono text-[12px] text-[var(--lab-white)]">Sides: 6, 8, 10</span>
+      </div>
+      <PromptBox>Calculate a² + b². Does it equal c²? Is this a right triangle?</PromptBox>
+      <WriteLines count={2} />
+
+      <p className="font-sans text-[13px] font-semibold text-[var(--lab-accent)] mt-[14px] mb-[6px]">Test 2</p>
+      <div className="bg-[var(--lab-surface)] rounded-[3px] px-[10px] py-[6px] my-[4px]">
+        <span className="font-mono text-[12px] text-[var(--lab-white)]">Sides: 5, 6, 9</span>
+      </div>
+      <PromptBox>Calculate a² + b². Does it equal c²? Is this a right triangle?</PromptBox>
+      <WriteLines count={2} />
+
+      <PromptBox>REVEAL: State the converse of the Pythagorean Theorem in your own words.</PromptBox>
+      <WriteLines count={3} />
+
+      <ProgressDots total={5} current={1} label="Discovery Log" />
+    </div>
+  );
+}
+
 function SideLengthsPage() {
   return (
     <div className="px-[20px] py-[24px]">
@@ -255,7 +290,7 @@ function SideLengthsPage() {
       <PromptBox>REVEAL: What is c? Express it exactly, then as a decimal.</PromptBox>
       <WriteLines count={2} />
 
-      <ProgressDots total={5} current={1} label="Discovery Log" />
+      <ProgressDots total={5} current={2} label="Discovery Log" />
     </div>
   );
 }
@@ -275,7 +310,7 @@ function CoordinateDistancePage() {
       </p>
 
       <div className="bg-[var(--lab-surface)] rounded-[3px] px-[10px] py-[6px] my-[8px]">
-        <span className="font-mono text-[12px] text-[var(--lab-white)]">Point 1: (1, 2)    Point 2: (4, 6)</span>
+        <span className="font-mono text-[12px] text-[var(--lab-white)]">Point 1: (1, 1)    Point 2: (4, 5)</span>
       </div>
 
       <PromptBox>PREDICT: What are the horizontal and vertical distances?</PromptBox>
@@ -283,9 +318,9 @@ function CoordinateDistancePage() {
 
       <div className="bg-[var(--lab-surface)] rounded-[4px] px-[12px] py-[10px] my-[8px]">
         <div className="font-mono text-[11px] text-[var(--lab-text-dim)] flex flex-col gap-1.5">
-          <span>Horizontal distance (Δx): ___</span>
-          <span>Vertical distance (Δy):   ___</span>
-          <span>Distance (hypotenuse):    ___</span>
+          <span>Horizontal distance (Δx): 3</span>
+          <span>Vertical distance (Δy):   4</span>
+          <span>Distance (hypotenuse):    5</span>
         </div>
       </div>
 
@@ -297,47 +332,6 @@ function CoordinateDistancePage() {
           The distance formula isn't new. It's the Pythagorean Theorem on a coordinate grid.
         </p>
       </div>
-
-      <ProgressDots total={5} current={2} label="Discovery Log" />
-    </div>
-  );
-}
-
-function CapstonePage() {
-  return (
-    <div className="px-[20px] py-[24px]">
-      <SectionLabel color={T.info}>Discovery Log</SectionLabel>
-      <h2 className="font-sans text-[16px] font-bold uppercase tracking-[0.05em] text-[var(--lab-info)] mt-[12px] mb-[4px]">
-        Capstone: Real-World & 3D
-      </h2>
-      <ScoredLine />
-
-      <p className="font-sans text-[13px] font-semibold text-[var(--lab-accent)] mt-[12px] mb-[6px]">Problem 1: The Ladder</p>
-      <p className="font-sans text-[11px] text-[var(--lab-text)] mb-[6px] leading-[1.4]">
-        A 10-foot ladder leans against a wall. The base is 6 feet from the wall. How high does the ladder reach?
-      </p>
-      <PromptBox>Draw the right triangle. Label the sides. Solve.</PromptBox>
-      <DotGrid height={100} />
-      <WriteLines count={2} />
-
-      <p className="font-sans text-[13px] font-semibold text-[var(--lab-accent)] mt-[14px] mb-[6px]">Problem 2: Coordinate Distance</p>
-      <p className="font-sans text-[11px] text-[var(--lab-text)] mb-[6px] leading-[1.4]">
-        Find the distance between (−3, −1) and (5, 3).
-      </p>
-      <PromptBox>Construct the right triangle on the coordinate grid. Calculate.</PromptBox>
-      <DotGrid height={100} />
-      <WriteLines count={2} />
-
-      <p className="font-sans text-[13px] font-semibold text-[var(--lab-info)] mt-[14px] mb-[6px]">Problem 3: 3D Extension</p>
-      <p className="font-sans text-[11px] text-[var(--lab-text)] mb-[6px] leading-[1.4]">
-        A rectangular box is 3 ft × 4 ft × 12 ft. Find the length of the longest diagonal (corner to opposite corner).
-      </p>
-      <PromptBox>Hint: Find the diagonal of the base first. Then use it as a leg.</PromptBox>
-      <WriteLines count={3} />
-
-      <ScoredLine />
-      <PromptBox>Why does the Pythagorean Theorem only work for right triangles?</PromptBox>
-      <WriteLines count={3} />
 
       <ProgressDots total={5} current={3} label="Discovery Log" />
     </div>
@@ -388,9 +382,9 @@ const PAGES: PageConfig[] = [
   { id: "implementation", label: "Implement", Component: ImplementationPage },
   { id: "classroom", label: "Classroom", Component: ClassroomPage },
   { id: "area-proof", label: "Area Proof", Component: AreaProofPage },
+  { id: "converse", label: "Converse", Component: ConversePage },
   { id: "side-lengths", label: "Side Lengths", Component: SideLengthsPage },
   { id: "distance", label: "Distance", Component: CoordinateDistancePage },
-  { id: "capstone", label: "Capstone", Component: CapstonePage },
   { id: "notes", label: "Notes", Component: NotesPage },
   { id: "back", label: "Back", Component: BackCover },
 ];
