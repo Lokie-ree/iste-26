@@ -39,7 +39,7 @@ function StandardsPage() {
       </h2>
       <ScoredLine />
       {[
-        { code: "8.G.B.6", desc: "Explain a proof of the Pythagorean Theorem and its converse using the area of squares." },
+        { code: "8.G.B.6", desc: "Explain a proof of the Pythagorean Theorem and its converse using the area of squares. Phase 1 builds this conceptual foundation before the theorem is applied in Phases 2–4." },
         { code: "8.G.B.7", desc: "Apply the Pythagorean Theorem to determine unknown side lengths in right triangles in real-world and mathematical problems in two and three dimensions." },
         { code: "8.G.B.8", desc: "Apply the Pythagorean Theorem to find the distance between two points in a coordinate system." },
       ].map(({ code, desc }) => (
@@ -91,10 +91,10 @@ function PhasesPage() {
       </h2>
       <ScoredLine />
       {[
-        { num: "01", title: "Area Exploration", desc: "Students manipulate squares built on each side of a right triangle. Drag, resize, observe. The visual proof emerges: the two smaller squares tile perfectly into the larger one. No formula yet — just area." },
-        { num: "02", title: "Predict & Reveal: Side Lengths", desc: "Given two sides, predict the third. The reveal shows the calculation alongside the visual proof. Students see that a² + b² = c² is a description of what the areas already showed them." },
-        { num: "03", title: "Coordinate Distance", desc: "The earned reveal: connect the theorem to distance. Two points on a coordinate grid. Draw the right triangle. The hypotenuse IS the distance. Students discover the distance formula as a consequence of what they already know." },
-        { num: "04", title: "Capstone: Real-World & 3D", desc: "Multi-step problems in context. Find the diagonal of a rectangular prism. Calculate the distance a drone travels. Level 5 — applying the theorem in situations that require constructing the right triangle first." },
+        { num: "01", title: "Visual Proof", desc: "Students predict the area of the hypotenuse square numerically for known Pythagorean triples. The relationship a² + b² = c² is earned as a formula label for what the squares already showed. No drag — the interaction is numeric input." },
+        { num: "02", title: "Converse", desc: "Does a² + b² = c² hold? Students test right and non-right triangles with a YES/NO toggle and a numeric check. Seeing the relationship fail on a non-right triple makes the converse meaningful." },
+        { num: "03", title: "Unknown Side Lengths", desc: "Apply the theorem to find the missing leg or hypotenuse. The progression from finding c to isolating a leg reveals whether students understand the equation structurally." },
+        { num: "04", title: "Coordinate Distance", desc: "Construct the hidden right triangle on a coordinate grid; the hypotenuse IS the distance. The distance formula is earned as a consequence of what students already know." },
       ].map(({ num, title, desc }) => (
         <div key={num} className="my-[14px]">
           <div className="flex items-baseline gap-2.5">
@@ -141,9 +141,8 @@ function ImplementationPage() {
       <SectionLabel>What to Watch For</SectionLabel>
       {[
         { title: "Confusing legs and hypotenuse", desc: "The area model in Phase 1 anchors this. If a student misidentifies the hypotenuse, redirect to the visual: 'Which is the longest side? Which square is biggest?'" },
-        { title: "The non-right triangle test", desc: "Students should test the theorem on non-right triangles and see it fail. This is how the converse becomes meaningful — not by memorizing it, but by seeing the breakdown." },
+        { title: "The non-right triangle test (Phase 2)", desc: "Students should see 5² + 6² ≠ 9². Let them verify. The converse is only meaningful if they've seen it fail." },
         { title: "Distance formula as discovery", desc: "Phase 3 is where many students have an 'aha' moment. The distance formula isn't a new thing to memorize — it's the Pythagorean Theorem on a coordinate grid. Watch for that recognition." },
-        { title: "3D extension in capstone", desc: "Some students will struggle to construct the right triangle in 3D problems. Encourage them to draw the 2D slice first, then extend. This is genuine Type III reasoning." },
         { title: "Engagement signals", desc: "\"Wait, the distance formula is just this?\" \"That's sick.\" \"Can I find the distance between any two points?\" These mean the instrument is working." },
       ].map(({ title, desc }) => (
         <div key={title} className="my-[8px]">
@@ -167,9 +166,9 @@ function ClassroomPage() {
       {[
         { when: "Before the module", move: "Draw a right triangle on the board. Build squares on each side. Ask: 'Is there a relationship between the areas of these squares?' Let students conjecture." },
         { when: "During Phase 1", move: "This is the proof phase. Students should spend real time here. Resist jumping to the formula. The visual proof IS the understanding — the formula is just shorthand." },
-        { when: "During Phase 2", move: "Watch for students who can find the hypotenuse but struggle to find a leg. This reveals whether they understand the equation structurally or just procedurally." },
-        { when: "At Phase 3", move: "Connect explicitly: 'You already know how to find the third side. What if the two points ARE two vertices of a right triangle?' Let them construct the third vertex themselves." },
-        { when: "During the capstone", move: "3D problems require students to decompose the situation into right triangles. This is Type III reasoning — they must model before they calculate. Celebrate the modeling, not just the answer." },
+        { when: "During Phase 2 (Converse)", move: "Watch students test whether 5-6-9 is a right triangle. Let them compute 5² + 6² and compare to 9². The converse is meaningful only after they've seen the relationship fail. Resist explaining why — the arithmetic speaks for itself." },
+        { when: "At Phase 3 (Unknown Side Lengths)", move: "Watch for students who can find the hypotenuse but struggle to isolate a leg. The equation is structural — c² − a² = b². If a student always places the unknown as c, redirect to the visual: 'Which square is missing? Set up the equation from that side.' This reveals whether they understand the theorem or just the most common procedure." },
+        { when: "At Phase 4 (Coordinate Distance)", move: "Connect explicitly: 'You already know how to find the third side. What if the two points ARE two vertices of a right triangle?' Let them construct the third vertex themselves." },
       ].map(({ when, move }) => (
         <div key={when} className="my-[10px]">
           <p className="font-sans text-[11px] font-semibold text-[var(--lab-accent)] mb-[3px]">{when}</p>
