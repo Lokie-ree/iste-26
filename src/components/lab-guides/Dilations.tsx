@@ -18,14 +18,14 @@ function Cover() {
         Dilations, Similarity
       </h1>
       <h1 className="font-sans text-[28px] font-bold text-[var(--lab-white)] mb-[16px] leading-[1.2]">
-        & Right Triangles
+        & Similarity
       </h1>
       <p className="font-sans text-[14px] text-[var(--lab-text)] mb-[4px]">Grade 8 Mathematics</p>
       <p className="font-sans text-[12px] text-[var(--lab-text-dim)]">IVLA STEM Club</p>
       <div className="flex flex-wrap justify-center gap-2 my-[24px]">
         <Badge>8.G.A.3</Badge>
         <Badge>8.G.A.4</Badge>
-        <Badge color={T.info}>G-SRT bridge</Badge>
+        <Badge>8.G.A.5</Badge>
       </div>
       <ScoredLine />
       <p className="font-sans text-[15px] italic text-[var(--lab-accent)] my-[16px] max-w-[320px]">
@@ -49,6 +49,7 @@ function StandardsPage() {
       {[
         { code: "8.G.A.3", desc: "Describe the effect of dilations, translations, rotations, and reflections on two-dimensional figures using coordinates. Dilations use the origin as center of dilation." },
         { code: "8.G.A.4", desc: "Explain that a two-dimensional figure is similar to another if the second can be obtained by a sequence of rotations, reflections, translations, and dilations. Describe the sequence that exhibits similarity." },
+        { code: "8.G.A.5", desc: "Use informal arguments to establish facts about the AA criterion for triangle similarity." },
       ].map(({ code, desc }) => (
         <div key={code} className="my-[12px]">
           <span className="font-mono text-[13px] text-[var(--lab-accent)]">{code}</span>
@@ -80,7 +81,7 @@ function StandardsPage() {
       {[
         { level: "Level 3", label: "Basic", colorClass: "text-[var(--lab-text-dim)]", desc: "Identify dilated figures. Recognize that a shape grew or shrank. Distinguish similar from congruent by appearance." },
         { level: "Level 4", label: "Mastery", colorClass: "text-[var(--lab-accent)]", desc: "Apply scale factor to coordinates. Describe dilation rules using (x, y) → (kx, ky). Determine scale factor from two similar figures." },
-        { level: "Level 5", label: "Advanced", colorClass: "text-[var(--lab-info)]", desc: "Describe sequences combining rigid motions and dilations to exhibit similarity. Explain why corresponding angles are congruent and sides are proportional." },
+        { level: "Level 5", label: "Advanced", colorClass: "text-[var(--lab-info)]", desc: "Describe sequences combining rigid motions and dilations to exhibit similarity. Apply the AA criterion to determine whether two triangles are similar." },
       ].map(({ level, label, colorClass, desc }) => (
         <div key={level} className="my-[10px]">
           <span className={`font-mono text-[12px] font-bold ${colorClass}`}>{level}</span>
@@ -96,10 +97,10 @@ function StandardsPage() {
 
 function PhasesPage() {
   const phases = [
-    { num: "01", title: "Scale Factor Exploration", desc: "Students drag a slider to scale the familiar scalene triangle from Module 1. No coordinates — pure visual feedback. The triangle grows and shrinks from the origin. Building intuition for what 'scale factor' means spatially." },
+    { num: "01", title: "Scale Factor Exploration", desc: "Students drag a ghost triangle to predict where the dilated image will land. Scale factor is given; students reason spatially about where each vertex ends up. No coordinates — pure manipulation. Building the spatial foundation for what dilation means." },
     { num: "02", title: "Predict & Reveal: Dilations", desc: "The core loop adapted for dilations. Given a scale factor, predict where each vertex lands. The reveal animation shows the dilation path — rays from the origin through each vertex. Scoring tracks accuracy." },
     { num: "03", title: "Coordinate Layer", desc: "The earned reveal: (x, y) → (kx, ky). After spatial mastery, coordinate notation appears. Students see that multiplying both coordinates by the scale factor is just a description of what they already understand." },
-    { num: "04", title: "Capstone: Similarity Sequences", desc: "Combine a rigid motion with a dilation. Given two similar figures, describe the sequence (translate + dilate, rotate + dilate). The inverse of Module 1's capstone — now with scale." },
+    { num: "04", title: "AA Criterion Capstone", desc: "Discover that two angle pairs are sufficient to establish similarity (AA). Test triangle pairs — prove similarity by describing a transformation sequence, or prove non-similarity by showing angle mismatch. Three pairs; one is not similar." },
   ];
 
   return (
@@ -168,6 +169,7 @@ function ImplementationPage() {
         { title: "The similarity vs. congruence distinction", desc: "Students from Module 1 proved congruence. Now they need to understand that adding dilation means 'same shape, different size.' Watch for the moment this clicks." },
         { title: "Connecting to Module 1", desc: "The capstone explicitly bridges: 'rigid motion + dilation = similarity transformation.' Students who completed Module 1 will recognize the sequence-building pattern." },
         { title: "Engagement signals", desc: "\"That's sick.\" \"Wait, so it's the same shape?\" \"Can I try a different scale factor?\" These mean the instrument is working." },
+        { title: "The NOT SIMILAR path", desc: "Phase 4 has one non-similar pair. Students who rely only on visual impression may mistake it for similar. The angle evidence is the proof. Watch for students who reach for sequences first and then get stuck." },
       ].map(({ title, desc }) => (
         <div key={title} className="my-[8px]">
           <p className="font-sans text-[11px] font-semibold text-[var(--lab-white)] mb-[2px]">{title}</p>
@@ -197,7 +199,8 @@ function ClassroomPage() {
         { when: "During Phase 1", move: "Watch students discover that the triangle 'grows from a point.' They'll notice the origin matters. This is the spatial foundation for center of dilation." },
         { when: "During Phase 2", move: "The ray visualization is the key insight. When students see dilation paths as rays from the origin through each vertex, they understand WHY (kx, ky) works — it's scalar multiplication along those rays." },
         { when: "At the Phase 3 boundary", move: "Students who struggled with coordinate rules in Module 1 may find this easier — multiplication feels more natural than the sign-flipping of reflections. Celebrate that." },
-        { when: "During the capstone", move: "Pairs should compare: 'I used translate then dilate. You used dilate then translate. Did we get the same result?' This surfaces commutativity questions from Module 1 in a new context." },
+        { when: "During Phase 3", move: "Pairs should compare: 'I used translate then dilate. You used dilate then translate. Did we get the same result?' This surfaces commutativity questions from Module 1 in a new context." },
+        { when: "During Phase 4 (AA Criterion)", move: "Phase 4 introduces a new kind of question: not 'find the sequence' but 'is there one?' Students who encounter the non-similar pair for the first time often try to force a sequence. Let the angle labels do the work." },
       ].map(({ when, move }) => (
         <div key={when} className="my-[10px]">
           <p className="font-sans text-[11px] font-semibold text-[var(--lab-accent)] mb-[3px]">{when}</p>
