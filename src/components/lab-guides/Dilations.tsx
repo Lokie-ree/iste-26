@@ -15,7 +15,7 @@ function Cover() {
       <SectionLabel>Lab Guide</SectionLabel>
       <ScoredLine />
       <h1 className="font-sans text-[28px] font-bold text-[var(--lab-white)] mt-[24px] mb-[4px] leading-[1.2]">
-        Dilations, Similarity
+        Dilations
       </h1>
       <h1 className="font-sans text-[28px] font-bold text-[var(--lab-white)] mb-[16px] leading-[1.2]">
         & Similarity
