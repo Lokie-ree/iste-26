@@ -70,8 +70,11 @@ One page replaced (`right-triangles` → `aa-criterion`). `CapstonePage` rewritt
 - Add entry: "The NOT SIMILAR path — Phase 4 has one non-similar pair. Students who rely only on visual impression may mistake it for similar. The angle evidence is the proof. Watch for students who reach for sequences first and then get stuck."
 
 **ClassroomPage**
-- "During Phase 1" move: replace slider reference with ghost drag + rays language
-- Add "During Phase 4" move: "Phase 4 introduces a new kind of question: not 'find the sequence' but 'is there one?' Students who encounter the non-similar pair for the first time often try to force a sequence. Let the angle labels do the work."
+The current ClassroomPage has 5 moves. The fifth — "During the capstone" — describes Phase 3 similarity sequence work (comparing translate+dilate vs. dilate+translate order). Phase 4 (AA criterion) is the actual capstone but has no classroom move. Changes:
+
+- "During Phase 1" move: replace slider reference with ghost drag + origin-growth language (the triangle grows from a point; origin matters)
+- "During the capstone" → rename to "During Phase 3" — content unchanged (it accurately describes Phase 3 similarity sequence commutativity work)
+- Add "During Phase 4 (AA Criterion)" as a 6th entry: "Phase 4 introduces a new kind of question: not 'find the sequence' but 'is there one?' Students who encounter the non-similar pair for the first time often try to force a sequence. Let the angle labels do the work."
 
 ### Student page changes
 
