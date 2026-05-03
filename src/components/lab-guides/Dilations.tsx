@@ -295,44 +295,52 @@ function SimilarityPage() {
   );
 }
 
-function RightTrianglesPage() {
+function AAPage() {
   return (
     <div className="px-[20px] py-[24px]">
       <SectionLabel color={T.accent}>Discovery Log</SectionLabel>
       <div className="flex justify-between items-baseline mt-[12px]">
-        <h2 className="font-sans text-[16px] font-bold text-[var(--lab-white)] m-0">RIGHT TRIANGLES</h2>
-        <span className="font-mono text-[11px] text-[var(--lab-text-dim)]">bridge to G-SRT</span>
+        <h2 className="font-sans text-[16px] font-bold text-[var(--lab-white)] m-0">AA CRITERION</h2>
+        <span className="font-mono text-[11px] text-[var(--lab-text-dim)]">two angle pairs → similarity</span>
       </div>
       <ScoredLine />
 
-      <p className="font-sans text-[12px] text-[var(--lab-text)] my-[8px] leading-[1.5]">
-        When similar triangles are right triangles, something powerful emerges: the ratio of sides depends only on the angle.
-      </p>
+      <PromptBox>Two triangles are shown. Before angles are revealed — predict: are they similar?</PromptBox>
+      <DotGrid height={100} />
 
-      <p className="font-sans text-[13px] font-semibold text-[var(--lab-accent)] mt-[14px] mb-[6px]">Dilating a right triangle</p>
-      <PromptBox>PREDICT: Scale a right triangle by k = 2. What happens to the acute angles?</PromptBox>
-      <DotGrid height={120} />
-      <WriteLines count={2} />
-
-      <p className="font-sans text-[13px] font-semibold text-[var(--lab-accent)] mt-[14px] mb-[6px]">Side ratios in similar right triangles</p>
-      <p className="font-sans text-[11px] text-[var(--lab-text)] mb-[8px] leading-[1.4]">
-        For two similar right triangles with the same acute angle, compare: opposite / hypotenuse.
+      <p className="font-sans text-[13px] font-semibold text-[var(--lab-accent)] mt-[14px] mb-[6px]">
+        Reveal Matches
       </p>
       <div className="bg-[var(--lab-surface)] rounded-[4px] px-[12px] py-[10px] my-[6px]">
-        <div className="font-mono text-[11px] text-[var(--lab-text-dim)] flex flex-col gap-1.5">
-          <span>Original:  opp / hyp = ___</span>
-          <span>Dilated:   opp / hyp = ___</span>
+        <div className="font-mono text-[11px] text-[var(--lab-text-dim)] flex flex-col gap-2">
+          <span>Angle pair 1:  ___ ° = ___ °</span>
+          <span>Angle pair 2:  ___ ° = ___ °</span>
         </div>
       </div>
-
-      <PromptBox>REVEAL: Why is this ratio the same regardless of triangle size?</PromptBox>
-      <WriteLines count={3} />
-
-      <div className="bg-[var(--lab-surface)] rounded-[4px] px-[16px] py-[10px] text-center my-[12px]">
-        <p className="font-sans text-[12px] text-[var(--lab-info)] italic m-0">
-          This ratio has a name. You'll meet it in Geometry: sine.
-        </p>
+      <div className="px-[8px]">
+        <p className="font-sans text-[11px] text-[var(--lab-text-dim)] mt-[4px]">How many angle pairs do you need to match to be sure the triangles are similar?</p>
       </div>
+      <WriteLines count={2} />
+
+      <p className="font-sans text-[13px] font-semibold text-[var(--lab-accent)] mt-[14px] mb-[6px]">
+        A non-similar pair
+      </p>
+      <p className="font-sans text-[11px] text-[var(--lab-text)] mb-[6px] leading-[1.4]">
+        Record the angle values for each triangle. Do any pairs match?
+      </p>
+      <div className="bg-[var(--lab-surface)] rounded-[4px] px-[12px] py-[10px] my-[6px]">
+        <div className="font-mono text-[11px] text-[var(--lab-text-dim)] flex flex-col gap-2">
+          <span>Triangle 1:  ___ °,  ___ °,  ___ °</span>
+          <span>Triangle 2:  ___ °,  ___ °,  ___ °</span>
+        </div>
+      </div>
+      <div className="px-[8px]">
+        <p className="font-sans text-[11px] text-[var(--lab-text-dim)] mt-[4px]">Why are these triangles NOT similar?</p>
+      </div>
+      <WriteLines count={2} />
+
+      <PromptBox>Write the AA criterion in your own words.</PromptBox>
+      <WriteLines count={3} />
 
       <ProgressDots total={5} current={2} label="Discovery Log" />
     </div>
@@ -344,36 +352,43 @@ function CapstonePage() {
     <div className="px-[20px] py-[24px]">
       <SectionLabel color={T.info}>Discovery Log</SectionLabel>
       <h2 className="font-sans text-[16px] font-bold uppercase tracking-[0.05em] text-[var(--lab-info)] mt-[12px] mb-[4px]">
-        Capstone: Similarity Sequences
+        Capstone: AA Criterion
       </h2>
       <ScoredLine />
 
       <p className="font-sans text-[12px] text-[var(--lab-text)] my-[8px] leading-[1.5]">
-        Describe a sequence of transformations (rigid motions + dilation) that maps one figure to a similar figure.
+        Three triangle pairs. For each: prove they are similar (describe a sequence) OR prove they are not similar (show the angles don't match).
       </p>
 
-      <div className="bg-[var(--lab-surface)] rounded-[3px] px-[10px] py-[6px] my-[8px] flex items-center gap-3">
-        <span className="font-sans text-[10px] text-[var(--lab-text-dim)]">REFERENCE</span>
-        <span className="font-mono text-[12px] text-[var(--lab-white)]">A(1,1)  B(4,2)  C(2,4)</span>
-      </div>
-
-      {["STEP 1", "STEP 2"].map((step) => (
-        <div key={step} className="my-[14px]">
-          <p className="font-mono text-[13px] font-bold text-[var(--lab-accent)] mb-[8px]">{step}</p>
-          {["TRANSFORMATION TYPE", "PARAMETERS", step === "STEP 1" ? "INTERMEDIATE RESULT" : "FINAL POSITION"].map((field) => (
-            <div key={field} className="mt-[4px] mb-[4px] ml-[10px]">
-              <span className="font-mono text-[9px] text-[var(--lab-text-dim)] tracking-[0.1em]">{field}</span>
-              <div className="h-[18px] border-b border-[var(--lab-border)]" />
+      {(["1", "2", "3"] as const).map((n) => (
+        <div key={n} className="my-[14px]">
+          <p className="font-mono text-[13px] font-bold text-[var(--lab-accent)] mb-[8px]">PAIR {n}</p>
+          <div className="bg-[var(--lab-surface)] rounded-[4px] px-[12px] py-[8px] my-[4px]">
+            <div className="font-mono text-[11px] text-[var(--lab-text-dim)] flex justify-between">
+              <div className="flex flex-col gap-1">
+                <span>Pre-image angles</span>
+                <span>___ °  ___ °  ___ °</span>
+              </div>
+              <div className="flex flex-col gap-1 text-right">
+                <span>Target angles</span>
+                <span>___ °  ___ °  ___ °</span>
+              </div>
             </div>
-          ))}
+          </div>
+          <div className="mt-[4px] mb-[4px] ml-[10px]">
+            <span className="font-mono text-[9px] text-[var(--lab-text-dim)] tracking-[0.1em]">SIMILAR or NOT SIMILAR?</span>
+            <div className="h-[18px] border-b border-[var(--lab-border)]" />
+          </div>
+          <div className="mt-[4px] mb-[4px] ml-[10px]">
+            <span className="font-mono text-[9px] text-[var(--lab-text-dim)] tracking-[0.1em]">YOUR EVIDENCE</span>
+          </div>
+          <WriteLines count={2} />
         </div>
       ))}
 
       <ScoredLine />
-      <PromptBox>Are the original and final triangles similar? How do you know?</PromptBox>
+      <PromptBox>What is the minimum evidence needed to prove two triangles are similar?</PromptBox>
       <WriteLines count={3} />
-      <PromptBox>What is the scale factor between the two triangles?</PromptBox>
-      <WriteLines count={2} />
 
       <ProgressDots total={5} current={3} label="Discovery Log" />
     </div>
@@ -427,7 +442,7 @@ const PAGES: PageConfig[] = [
   { id: "classroom", label: "Classroom", Component: ClassroomPage },
   { id: "dilations", label: "Dilations", Component: DilationsPage },
   { id: "similarity", label: "Similarity", Component: SimilarityPage },
-  { id: "right-triangles", label: "Right △", Component: RightTrianglesPage },
+  { id: "aa-criterion", label: "AA Criterion", Component: AAPage },
   { id: "capstone", label: "Capstone", Component: CapstonePage },
   { id: "notes", label: "Notes", Component: NotesPage },
   { id: "back", label: "Back", Component: BackCover },
