@@ -223,6 +223,42 @@ function AreaProofPage() {
   );
 }
 
+function ConversePage() {
+  return (
+    <div className="px-[20px] py-[24px]">
+      <SectionLabel color={T.accent}>Discovery Log</SectionLabel>
+      <div className="flex justify-between items-baseline mt-[12px]">
+        <h2 className="font-sans text-[16px] font-bold text-[var(--lab-white)] m-0">THE CONVERSE</h2>
+        <span className="font-mono text-[11px] text-[var(--lab-text-dim)]">a² + b² = c²?</span>
+      </div>
+      <ScoredLine />
+
+      <p className="font-sans text-[12px] text-[var(--lab-text)] my-[8px] leading-[1.5]">
+        The theorem says: IF a triangle is a right triangle, THEN a² + b² = c². Does the reverse hold?
+      </p>
+
+      <p className="font-sans text-[13px] font-semibold text-[var(--lab-accent)] mt-[14px] mb-[6px]">Test 1</p>
+      <div className="bg-[var(--lab-surface)] rounded-[3px] px-[10px] py-[6px] my-[4px]">
+        <span className="font-mono text-[12px] text-[var(--lab-white)]">Sides: 6, 8, 10</span>
+      </div>
+      <PromptBox>Calculate a² + b². Does it equal c²? Is this a right triangle?</PromptBox>
+      <WriteLines count={2} />
+
+      <p className="font-sans text-[13px] font-semibold text-[var(--lab-accent)] mt-[14px] mb-[6px]">Test 2</p>
+      <div className="bg-[var(--lab-surface)] rounded-[3px] px-[10px] py-[6px] my-[4px]">
+        <span className="font-mono text-[12px] text-[var(--lab-white)]">Sides: 5, 6, 9</span>
+      </div>
+      <PromptBox>Calculate a² + b². Does it equal c²? Is this a right triangle?</PromptBox>
+      <WriteLines count={2} />
+
+      <PromptBox>REVEAL: State the converse of the Pythagorean Theorem in your own words.</PromptBox>
+      <WriteLines count={3} />
+
+      <ProgressDots total={5} current={1} label="Discovery Log" />
+    </div>
+  );
+}
+
 function SideLengthsPage() {
   return (
     <div className="px-[20px] py-[24px]">
@@ -254,7 +290,7 @@ function SideLengthsPage() {
       <PromptBox>REVEAL: What is c? Express it exactly, then as a decimal.</PromptBox>
       <WriteLines count={2} />
 
-      <ProgressDots total={5} current={1} label="Discovery Log" />
+      <ProgressDots total={5} current={2} label="Discovery Log" />
     </div>
   );
 }
@@ -274,7 +310,7 @@ function CoordinateDistancePage() {
       </p>
 
       <div className="bg-[var(--lab-surface)] rounded-[3px] px-[10px] py-[6px] my-[8px]">
-        <span className="font-mono text-[12px] text-[var(--lab-white)]">Point 1: (1, 2)    Point 2: (4, 6)</span>
+        <span className="font-mono text-[12px] text-[var(--lab-white)]">Point 1: (1, 1)    Point 2: (4, 5)</span>
       </div>
 
       <PromptBox>PREDICT: What are the horizontal and vertical distances?</PromptBox>
@@ -282,9 +318,9 @@ function CoordinateDistancePage() {
 
       <div className="bg-[var(--lab-surface)] rounded-[4px] px-[12px] py-[10px] my-[8px]">
         <div className="font-mono text-[11px] text-[var(--lab-text-dim)] flex flex-col gap-1.5">
-          <span>Horizontal distance (Δx): ___</span>
-          <span>Vertical distance (Δy):   ___</span>
-          <span>Distance (hypotenuse):    ___</span>
+          <span>Horizontal distance (Δx): 3</span>
+          <span>Vertical distance (Δy):   4</span>
+          <span>Distance (hypotenuse):    5</span>
         </div>
       </div>
 
@@ -296,47 +332,6 @@ function CoordinateDistancePage() {
           The distance formula isn't new. It's the Pythagorean Theorem on a coordinate grid.
         </p>
       </div>
-
-      <ProgressDots total={5} current={2} label="Discovery Log" />
-    </div>
-  );
-}
-
-function CapstonePage() {
-  return (
-    <div className="px-[20px] py-[24px]">
-      <SectionLabel color={T.info}>Discovery Log</SectionLabel>
-      <h2 className="font-sans text-[16px] font-bold uppercase tracking-[0.05em] text-[var(--lab-info)] mt-[12px] mb-[4px]">
-        Capstone: Real-World & 3D
-      </h2>
-      <ScoredLine />
-
-      <p className="font-sans text-[13px] font-semibold text-[var(--lab-accent)] mt-[12px] mb-[6px]">Problem 1: The Ladder</p>
-      <p className="font-sans text-[11px] text-[var(--lab-text)] mb-[6px] leading-[1.4]">
-        A 10-foot ladder leans against a wall. The base is 6 feet from the wall. How high does the ladder reach?
-      </p>
-      <PromptBox>Draw the right triangle. Label the sides. Solve.</PromptBox>
-      <DotGrid height={100} />
-      <WriteLines count={2} />
-
-      <p className="font-sans text-[13px] font-semibold text-[var(--lab-accent)] mt-[14px] mb-[6px]">Problem 2: Coordinate Distance</p>
-      <p className="font-sans text-[11px] text-[var(--lab-text)] mb-[6px] leading-[1.4]">
-        Find the distance between (−3, −1) and (5, 3).
-      </p>
-      <PromptBox>Construct the right triangle on the coordinate grid. Calculate.</PromptBox>
-      <DotGrid height={100} />
-      <WriteLines count={2} />
-
-      <p className="font-sans text-[13px] font-semibold text-[var(--lab-info)] mt-[14px] mb-[6px]">Problem 3: 3D Extension</p>
-      <p className="font-sans text-[11px] text-[var(--lab-text)] mb-[6px] leading-[1.4]">
-        A rectangular box is 3 ft × 4 ft × 12 ft. Find the length of the longest diagonal (corner to opposite corner).
-      </p>
-      <PromptBox>Hint: Find the diagonal of the base first. Then use it as a leg.</PromptBox>
-      <WriteLines count={3} />
-
-      <ScoredLine />
-      <PromptBox>Why does the Pythagorean Theorem only work for right triangles?</PromptBox>
-      <WriteLines count={3} />
 
       <ProgressDots total={5} current={3} label="Discovery Log" />
     </div>
@@ -387,9 +382,9 @@ const PAGES: PageConfig[] = [
   { id: "implementation", label: "Implement", Component: ImplementationPage },
   { id: "classroom", label: "Classroom", Component: ClassroomPage },
   { id: "area-proof", label: "Area Proof", Component: AreaProofPage },
+  { id: "converse", label: "Converse", Component: ConversePage },
   { id: "side-lengths", label: "Side Lengths", Component: SideLengthsPage },
   { id: "distance", label: "Distance", Component: CoordinateDistancePage },
-  { id: "capstone", label: "Capstone", Component: CapstonePage },
   { id: "notes", label: "Notes", Component: NotesPage },
   { id: "back", label: "Back", Component: BackCover },
 ];
