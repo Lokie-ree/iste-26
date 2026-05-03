@@ -45,4 +45,4 @@ Reusable micro-components for all lab guides:
 
 Modules implement a **discovery-first pedagogy**: manipulation before explanation, spatial reasoning before coordinate rules, "earned reveal" of formal notation. See `docs/PRODUCT.md` for LSSM standards alignment and `docs/PHILOSOPHY.md` for pedagogical principles. Understanding these documents is necessary context for making content decisions.
 
-The canonical triangle used across all three modules is **A(1,1) B(4,2) C(2,4)**.
+The canonical triangle used in M2 and M3 is **A(1,1) B(4,2) C(2,4)**. M1 uses a different pre-image: **A(−3,−2) B(1,−1) C(−2,1)**.
