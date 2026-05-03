@@ -90,7 +90,7 @@ Structure:
 
 **CapstonePage (rewritten)**
 
-Content drawn from `capstone-final` round (3 pairs, one not-similar).
+Content drawn from `capstone-final` round (3 pairs, one not-similar). Per M2_ARCHITECTURE.md §Phase 4 Triangle Data: Pair 1 is similar (right isosceles), Pair 2 is NOT similar (contrast pair — angles don't match), Pair 3 is similar (3-4-5 right triangle). The page should reflect this ordering; Pair 2 is the expected "NOT SIMILAR" outcome.
 
 Structure:
 - Header: "CAPSTONE: AA CRITERION" / color: `T.info`
@@ -132,9 +132,13 @@ Remove all "Real-World & 3D Capstone" references.
 - Remove: 3D capstone and Type III reasoning references.
 
 **ClassroomPage**
-- "During Phase 2" → now references the Converse phase (non-right triangle test), not side lengths.
-- "At Phase 3" → now references Unknown Side Lengths.
-- "During the capstone" move → replaced with "At Phase 4" move: coordinate distance connection. "Connect explicitly: 'You already know how to find the third side. What if the two points ARE two vertices of a right triangle?' Let them construct the third vertex themselves."
+The current ClassroomPage has five teacher moves: Before the module / During Phase 1 / During Phase 2 / At Phase 3 / During the capstone. After the phase renumber (02=Converse, 03=Unknown Sides, 04=Coordinate Distance), the moves map as follows:
+
+- "Before the module" — no change
+- "During Phase 1" — no change (visual proof)
+- "During Phase 2" → relabeled and rewritten to reference the Converse phase (non-right triangle test). New text: "Watch students test whether 5-6-9 is a right triangle. Let them compute 5² + 6² and compare to 9². The converse is meaningful only after they've seen the relationship fail. Resist explaining why — the arithmetic speaks for itself."
+- "At Phase 3 (Unknown Side Lengths)" — the CURRENT "At Phase 3" text ("Connect explicitly: 'You already know how to find the third side…'") is coordinate-distance language that belongs to Phase 4. Replace with new Unknown Side Lengths content: "Watch for students who can find the hypotenuse but struggle to isolate a leg. The equation is structural — c² − a² = b². If a student always places the unknown as c, redirect to the visual: 'Which square is missing? Set up the equation from that side.' This reveals whether they understand the theorem or just the most common procedure."
+- "During the capstone" → replaced with "At Phase 4 (Coordinate Distance)" move: "Connect explicitly: 'You already know how to find the third side. What if the two points ARE two vertices of a right triangle?' Let them construct the third vertex themselves."
 
 ### Student page changes
 
