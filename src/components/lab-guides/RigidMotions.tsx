@@ -132,7 +132,7 @@ function ImplementationPage() {
         { label: "DEVICES", value: "Desktop or laptop recommended; tablet supported" },
         { label: "SETUP", value: "No account required. Navigate to URL. Students begin immediately." },
         { label: "TEACHER ROLE", value: "Observer and facilitator — the module is self-guided." },
-        { label: "SHAPE FAMILY", value: "Scalene triangle — A(1,1) B(4,2) C(2,4). This triangle carries through all three modules in the progression." },
+        { label: "SHAPE FAMILY", value: "Scalene triangle — A(−3,−2) B(1,−1) C(−2,1). This is the M1 pre-image; the canonical triangle A(1,1) B(4,2) C(2,4) is used in M2 and M3." },
       ].map(({ label, value }) => (
         <div key={label} className="my-[10px]">
           <span className="font-mono text-[10px] text-[var(--lab-text-dim)]">{label}</span>
@@ -211,7 +211,7 @@ function TranslationsPage() {
       <ScoredLine mode="theme" />
       <div className="bg-[var(--lab-surface)] rounded-[3px] px-[10px] py-[6px] my-[8px] flex items-center gap-3">
         <span className="font-sans text-[10px] text-[var(--lab-text-dim)]">REFERENCE</span>
-        <span className="font-mono text-[12px] text-[var(--lab-white)]">A(1,1)  B(4,2)  C(2,4)</span>
+        <span className="font-mono text-[12px] text-[var(--lab-white)]">A(−3,−2)  B(1,−1)  C(−2,1)</span>
       </div>
       <PromptBox>PREDICT: Where will the triangle land?</PromptBox>
       <DotGrid height={130} />
@@ -265,14 +265,14 @@ function RotationsPage() {
       </div>
       <ScoredLine mode="theme" />
       <p className="font-sans text-[13px] font-semibold text-[var(--lab-accent)] mt-[12px] mb-[6px]">
-        90° counterclockwise about the origin
+        90° clockwise about the origin
       </p>
       <PromptBox>PREDICT: Where will the triangle land?</PromptBox>
       <DotGrid height={110} />
       <p className="font-sans text-[13px] font-semibold text-[var(--lab-accent)] mt-[14px] mb-[6px]">
         180° about the origin
       </p>
-      <PromptBox>PREDICT: What happens to (x, y)?</PromptBox>
+      <PromptBox>PREDICT: Try 180° — what do you notice about both coordinates?</PromptBox>
       <DotGrid height={100} />
       <PromptBox>REVEAL: Describe the pattern in the coordinates.</PromptBox>
       <WriteLines count={3} />
@@ -294,7 +294,7 @@ function CapstonePage() {
       </p>
       <div className="bg-[var(--lab-surface)] rounded-[3px] px-[10px] py-[6px] my-[8px] flex items-center gap-3">
         <span className="font-sans text-[10px] text-[var(--lab-text-dim)]">REFERENCE</span>
-        <span className="font-mono text-[12px] text-[var(--lab-white)]">A(1,1)  B(4,2)  C(2,4)</span>
+        <span className="font-mono text-[12px] text-[var(--lab-white)]">A(−3,−2)  B(1,−1)  C(−2,1)</span>
       </div>
       {["STEP 1", "STEP 2"].map((step) => (
         <div key={step} className="my-[14px]">
