@@ -24,8 +24,12 @@ export function ProgressDots({
   label?: string;
 }) {
   return (
-    <div className="flex flex-col items-center gap-1.5 py-4 pb-2">
-      <div className="flex items-center gap-2.5">
+    <div
+      className="flex flex-col items-center gap-1.5 py-4 pb-2"
+      role="status"
+      aria-label={`${label ? label + " — " : ""}step ${current + 1} of ${total}`}
+    >
+      <div className="flex items-center gap-2.5" aria-hidden="true">
         {Array.from({ length: total }, (_, i) => (
           <div
             key={i}
@@ -42,7 +46,7 @@ export function ProgressDots({
       </div>
 
       {label && (
-        <span className="font-mono text-[9px] uppercase tracking-[0.15em] text-[var(--lab-surface-hi)]">
+        <span className="font-mono text-[9px] uppercase tracking-[0.15em] text-[var(--lab-text-dim)]" aria-hidden="true">
           {label}
         </span>
       )}
@@ -118,10 +122,16 @@ export function DotGrid({ height = 120 }: { height?: number }) {
 
   return (
     <div className="my-1.5 rounded bg-[var(--lab-surface)] p-1">
-      <svg width="100%" height={height} viewBox={`0 0 ${10 + cols * spacing} ${10 + rows * spacing}`}>
+      <svg
+        width="100%"
+        height={height}
+        viewBox={`0 0 ${10 + cols * spacing} ${10 + rows * spacing}`}
+        role="img"
+        aria-label="Dot paper for sketching predictions"
+      >
         {dots}
       </svg>
-      <div className="px-2 pb-1 text-[9px] uppercase tracking-[0.1em] text-[var(--lab-surface-hi)]">
+      <div className="px-2 pb-1 text-[9px] uppercase tracking-[0.1em] text-[var(--lab-text-dim)]" aria-hidden="true">
         sketch your prediction
       </div>
     </div>

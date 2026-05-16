@@ -1,17 +1,27 @@
-import Dilations from "@/components/lab-guides/Dilations"
-import DilationsModulePlanning from "@/components/planning/DilationsModulePlanning"
 import RigidMotions from "@/components/lab-guides/RigidMotions"
+import Dilations from "@/components/lab-guides/Dilations"
 import PythagoreanTheorem from "@/components/lab-guides/PythagoreanTheorem"
+import { useState, useEffect, type ComponentType } from "react"
 
-export function App() {
-  return (
-    <div className="flex flex-col max-w-7xl mx-auto gap-3">
-      <RigidMotions />
-      <Dilations />
-      <PythagoreanTheorem />
-      <DilationsModulePlanning />
-    </div>
-  )
+const GUIDES: Record<string, ComponentType> = {
+  "rigid-motions": RigidMotions,
+  "dilations": Dilations,
+  "pythagorean-theorem": PythagoreanTheorem,
 }
 
-export default App
+function getGuide() {
+  const hash = window.location.hash.replace("#", "")
+  return GUIDES[hash] ?? RigidMotions
+}
+
+export default function App() {
+  const [Guide, setGuide] = useState<ComponentType>(getGuide)
+
+  useEffect(() => {
+    const handleHashChange = () => setGuide(() => getGuide())
+    window.addEventListener("hashchange", handleHashChange)
+    return () => window.removeEventListener("hashchange", handleHashChange)
+  }, [])
+
+  return <Guide />
+}
