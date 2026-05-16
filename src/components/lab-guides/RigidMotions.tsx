@@ -13,8 +13,10 @@ function Cover() {
     <div className="min-h-screen flex flex-col items-center justify-center p-8 text-center">
       <SectionLabel>Lab Guide</SectionLabel>
       <ScoredLine mode="theme" />
-      <h1 className="font-sans text-[28px] font-bold text-[var(--lab-white)] mt-[24px] mb-[4px] leading-[1.2]">Rigid Motions</h1>
-      <h1 className="font-sans text-[28px] font-bold text-[var(--lab-white)] mb-[16px] leading-[1.2]">& Congruence</h1>
+      <h1 className="font-sans text-[28px] font-bold text-[var(--lab-white)] mt-[24px] mb-[16px] leading-[1.2]">
+        <span className="block mb-[4px]">Rigid Motions</span>
+        <span className="block">& Congruence</span>
+      </h1>
       <p className="font-sans text-[14px] text-[var(--lab-text)] mb-[4px]">Grade 8 Mathematics</p>
       <p className="font-sans text-[12px] text-[var(--lab-text-dim)]">IVLA STEM Club</p>
       <div className="flex flex-wrap justify-center gap-2 my-[24px]">
@@ -391,17 +393,27 @@ export default function LabGuideRigidMotions() {
         <div
           className="sticky top-0 z-10 border-b border-[var(--lab-border)] backdrop-blur bg-[color-mix(in_srgb,var(--lab-surface)_80%,transparent)]"
         >
-          <TabsList className="w-full justify-start overflow-x-auto flex-nowrap bg-transparent">
-          {PAGES.map((p) => (
-            <TabsTrigger
-              key={p.id}
-              value={p.id}
-              className="whitespace-nowrap text-[10px] tracking-[0.15em]"
+          <div className="relative overflow-hidden">
+            <TabsList
+              aria-label="Lab guide pages"
+              className="w-full justify-start overflow-x-auto flex-nowrap bg-transparent [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
             >
-              {p.label}
-            </TabsTrigger>
-          ))}
-          </TabsList>
+              {PAGES.map((p) => (
+                <TabsTrigger
+                  key={p.id}
+                  value={p.id}
+                  className="whitespace-nowrap text-[10px] tracking-[0.15em]"
+                >
+                  {p.label}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+            <div
+              className="pointer-events-none absolute inset-y-0 right-0 w-8"
+              style={{ background: 'linear-gradient(to right, transparent, color-mix(in srgb, var(--lab-surface) 95%, transparent))' }}
+              aria-hidden="true"
+            />
+          </div>
         </div>
 
         <div className="mx-auto w-full max-w-md px-3 md:max-w-2xl md:px-6 lg:max-w-3xl">
@@ -417,12 +429,12 @@ export default function LabGuideRigidMotions() {
             onClick={goPrev}
             disabled={pageIndex === 0}
             className={`font-mono text-[10px] border-[var(--lab-border)] ${
-              pageIndex === 0 ? "text-[var(--lab-surface-hi)]" : "text-[var(--lab-text-dim)]"
+              pageIndex === 0 ? "text-[var(--lab-text-dim)] opacity-30" : "text-[var(--lab-text-dim)]"
             }`}
           >
             ← PREV
           </Button>
-          <span className="font-mono text-[9px] text-[var(--lab-surface-hi)]">
+          <span className="font-mono text-[9px] text-[var(--lab-text-dim)]" aria-label={`Page ${pageIndex + 1} of ${PAGES.length}`}>
             {pageIndex + 1} / {PAGES.length}
           </span>
           <Button
@@ -431,7 +443,7 @@ export default function LabGuideRigidMotions() {
             onClick={goNext}
             disabled={pageIndex === PAGES.length - 1}
             className={`font-mono text-[10px] border-[var(--lab-border)] ${
-              pageIndex === PAGES.length - 1 ? "text-[var(--lab-surface-hi)]" : "text-[var(--lab-text-dim)]"
+              pageIndex === PAGES.length - 1 ? "text-[var(--lab-text-dim)] opacity-30" : "text-[var(--lab-text-dim)]"
             }`}
           >
             NEXT →
