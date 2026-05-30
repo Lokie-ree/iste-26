@@ -42,8 +42,8 @@ function StandardsPage() {
       <ScoredLine />
       {[
         { code: "8.G.B.6", desc: "Explain a proof of the Pythagorean Theorem and its converse using the area of squares. Phase 1 builds this conceptual foundation before the theorem is applied in Phases 2–4." },
-        { code: "8.G.B.7", desc: "Apply the Pythagorean Theorem to determine unknown side lengths in right triangles in real-world and mathematical problems in two and three dimensions." },
-        { code: "8.G.B.8", desc: "Apply the Pythagorean Theorem to find the distance between two points in a coordinate system." },
+        { code: "8.G.B.7", desc: "Apply the theorem to find unknown side lengths. Phase 3 reveals whether students understand the equation structurally — finding a leg requires c² − a² = b², not just executing a formula with c on the right." },
+        { code: "8.G.B.8", desc: "Apply the theorem to coordinate distance. Phase 4 earns the distance formula by having students construct the hidden right triangle themselves. The formula is never introduced as a separate thing to memorize." },
       ].map(({ code, desc }) => (
         <div key={code} className="my-[12px]">
           <span className="font-mono text-[13px] text-[var(--lab-accent)]">{code}</span>
@@ -139,6 +139,10 @@ function ImplementationPage() {
       <div className="bg-[var(--lab-surface)] rounded-[4px] px-[14px] py-[8px] my-[12px]">
         <span className="font-mono text-[13px] text-[var(--lab-accent)]">creative-lab-five.vercel.app</span>
       </div>
+      <div className="bg-[var(--lab-surface)] rounded-[4px] px-[14px] py-[10px] my-[8px]">
+        <p className="font-mono text-[10px] text-[var(--lab-text-dim)] mb-[4px]">WHAT THIS IS NOT</p>
+        <p className="font-sans text-[11px] text-[var(--lab-text)] leading-[1.5]">Not a drill sheet. Not a lecture replacement. Not a problem set to assign. It is a proof-first discovery instrument — students experience why a² + b² = c² before they apply it, and the distance formula is a consequence, not a new topic.</p>
+      </div>
       <ScoredLine />
       <SectionLabel>What to Watch For</SectionLabel>
       {[
@@ -165,6 +169,9 @@ function ClassroomPage() {
         Classroom Integration
       </h2>
       <ScoredLine />
+      <p className="font-sans text-[12px] text-[var(--lab-text)] my-[8px] leading-[1.5]">
+        Your students have seen a² + b² = c² before. They can probably recite it. What most can't do is explain why the sum of two squares equals a third — or recognize the relationship in a figure they haven't seen before. That distance between recitation and belief is where this module starts. I built Phase 1 around the visual proof because I kept seeing students plug numbers into a formula they didn't trust.
+      </p>
       {[
         { when: "Before the module", move: "Draw a right triangle on the board. Build squares on each side. Ask: 'Is there a relationship between the areas of these squares?' Let students conjecture." },
         { when: "During Phase 1", move: "This is the proof phase. Students should spend real time here. Resist jumping to the formula. The visual proof IS the understanding — the formula is just shorthand." },
@@ -328,12 +335,6 @@ function CoordinateDistancePage() {
 
       <PromptBox>REVEAL: How is finding distance the same as finding a hypotenuse?</PromptBox>
       <WriteLines count={3} />
-
-      <div className="bg-[var(--lab-surface)] rounded-[4px] px-[16px] py-[10px] text-center my-[12px]">
-        <p className="font-sans text-[12px] text-[var(--lab-info)] italic m-0">
-          The distance formula isn't new. It's the Pythagorean Theorem on a coordinate grid.
-        </p>
-      </div>
 
       <ProgressDots total={5} current={3} label="Discovery Log" />
     </div>
