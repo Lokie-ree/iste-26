@@ -41,9 +41,9 @@ function StandardsPage() {
       </h2>
       <ScoredLine mode="theme" />
       {[
-        { code: "8.G.A.1", desc: "Verify experimentally the properties of rotations, reflections, and translations: lines are taken to lines, angle measures are preserved, parallel lines are taken to parallel lines." },
-        { code: "8.G.A.2", desc: "Understand that a two-dimensional figure is congruent to another if the second can be obtained from the first by a sequence of rotations, reflections, and translations; given two congruent figures, describe a sequence that exhibits the congruence." },
-        { code: "8.G.A.3", desc: "Describe the effect of dilations, translations, rotations, and reflections on two-dimensional figures using coordinates. Rotations are only about the origin; reflections are only over the x-axis and y-axis in Grade 8." },
+        { code: "8.G.A.1", desc: "Verify experimentally the properties of rotations, reflections, and translations. Students discover in Phases 1–2 that distances, angles, and parallelism hold — by watching them hold across every prediction, not by being told." },
+        { code: "8.G.A.2", desc: "Understand congruence as a transformation sequence. The capstone inverts this: students are given two figures and must identify the sequence themselves — not follow one that's provided." },
+        { code: "8.G.A.3", desc: "Describe transformation effects using coordinates. Coordinate rules appear in Phase 3, after students have already predicted outcomes spatially in Phases 1–2. The notation arrives as a label for something already understood, not a new procedure to memorize." },
       ].map(({ code, desc }) => (
         <div key={code} className="my-[12px]">
           <span className="font-mono text-[13px] text-[var(--lab-accent)]">{code}</span>
@@ -130,6 +130,7 @@ function ImplementationPage() {
       </h2>
       <ScoredLine mode="theme" />
       {[
+        { label: "PREREQUISITE", value: "Students should be familiar with the coordinate plane and plotting points. They do not need prior knowledge of transformation rules — the module builds them." },
         { label: "DURATION", value: "2–3 class periods (45 min each)" },
         { label: "DEVICES", value: "Desktop or laptop recommended; tablet supported" },
         { label: "SETUP", value: "No account required. Navigate to URL. Students begin immediately." },
@@ -145,6 +146,10 @@ function ImplementationPage() {
       ))}
       <div className="bg-[var(--lab-surface)] rounded-[4px] px-[14px] py-[8px] my-[12px]">
         <span className="font-mono text-[13px] text-[var(--lab-accent)]">creative-lab-five.vercel.app</span>
+      </div>
+      <div className="bg-[var(--lab-surface)] rounded-[4px] px-[14px] py-[10px] my-[8px]">
+        <p className="font-mono text-[10px] text-[var(--lab-text-dim)] mb-[4px]">WHAT THIS IS NOT</p>
+        <p className="font-sans text-[11px] text-[var(--lab-text)] leading-[1.5]">Not a lecture replacement. Not an assessment tool. Not a problem set. It is a discovery instrument — students run it for one to three periods and hand understanding back to you. The worksheet comes after, if you want one.</p>
       </div>
       <ScoredLine mode="theme" />
       <SectionLabel>What to Watch For</SectionLabel>
@@ -173,7 +178,10 @@ function ClassroomPage() {
       </h2>
       <ScoredLine mode="theme" />
       <p className="font-sans text-[12px] text-[var(--lab-text)] my-[8px] leading-[1.5]">
-        The module is self-guided, but strategic teacher moves amplify the learning.
+        Your students know what a translation is. They can probably point to a reflected shape. What most can't do is predict where a specific vertex lands before they've seen a rule. That gap — between naming and knowing — is where this module works. I built the predict/reveal loop by watching what actually stopped the confusion in my own classroom, not by theorizing about what should.
+      </p>
+      <p className="font-sans text-[12px] text-[var(--lab-text)] my-[8px] leading-[1.5]">
+        The module is self-guided. These moves deepen what it starts.
       </p>
       {[
         { when: "Before the module", move: "Ask: \"When you slide a book across a desk, what changes? What doesn't?\" Let students generate hypotheses. Do not define rigid motion yet." },

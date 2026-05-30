@@ -45,9 +45,9 @@ function StandardsPage() {
       <ScoredLine />
 
       {[
-        { code: "8.G.A.3", desc: "Describe the effect of dilations, translations, rotations, and reflections on two-dimensional figures using coordinates. Dilations use the origin as center of dilation." },
-        { code: "8.G.A.4", desc: "Explain that a two-dimensional figure is similar to another if the second can be obtained by a sequence of rotations, reflections, translations, and dilations. Describe the sequence that exhibits similarity." },
-        { code: "8.G.A.5", desc: "Use informal arguments to establish facts about the AA criterion for triangle similarity." },
+        { code: "8.G.A.3", desc: "Describe dilation effects using coordinates. The rule (x, y) → (kx, ky) appears in Phase 3, after students have already predicted vertex positions spatially in Phase 2. The notation is earned, not front-loaded." },
+        { code: "8.G.A.4", desc: "Understand similarity as a transformation sequence — rigid motions plus a dilation. Students build and test these sequences in Phase 4, describing what they do rather than being told what similarity means." },
+        { code: "8.G.A.5", desc: "Establish the AA criterion through informal argument. Students in Phase 4 test triangle pairs and examine angle evidence — including one non-similar pair that forces them to distinguish visual impression from proof." },
       ].map(({ code, desc }) => (
         <div key={code} className="my-[12px]">
           <span className="font-mono text-[13px] text-[var(--lab-accent)]">{code}</span>
@@ -158,6 +158,10 @@ function ImplementationPage() {
       <div className="bg-[var(--lab-surface)] rounded-[4px] px-[14px] py-[8px] my-[12px]">
         <span className="font-mono text-[13px] text-[var(--lab-accent)]">creative-lab-five.vercel.app</span>
       </div>
+      <div className="bg-[var(--lab-surface)] rounded-[4px] px-[14px] py-[10px] my-[8px]">
+        <p className="font-mono text-[10px] text-[var(--lab-text-dim)] mb-[4px]">WHAT THIS IS NOT</p>
+        <p className="font-sans text-[11px] text-[var(--lab-text)] leading-[1.5]">Not a lecture replacement. Not an assessment. Not a worksheet generator. It is a discovery instrument — students run it for one to three periods and leave with a spatial understanding that makes the coordinate rules obvious, not mysterious.</p>
+      </div>
 
       <ScoredLine />
       <SectionLabel>What to Watch For</SectionLabel>
@@ -189,7 +193,10 @@ function ClassroomPage() {
       </h2>
       <ScoredLine />
       <p className="font-sans text-[12px] text-[var(--lab-text)] my-[8px] leading-[1.5]">
-        This module builds directly on Rigid Motions. The same triangle, the same predict/reveal loop, a new property to discover.
+        Your students can probably name a scale factor. What they've likely never done is predict where a specific vertex lands under k = 0.5 before the reveal — and discover that "smaller" means something different from "moved." The confusion between dilation and translation is stubborn. I found it in every cohort I tested this with; the ray visualization in Phase 2 is the fix I landed on after watching what didn't work.
+      </p>
+      <p className="font-sans text-[12px] text-[var(--lab-text)] my-[8px] leading-[1.5]">
+        This module builds directly on Rigid Motions — same triangle, same predict/reveal loop, new property.
       </p>
 
       {[
@@ -258,7 +265,7 @@ function SimilarityPage() {
       </div>
       <ScoredLine />
 
-      <PromptBox>Two figures are similar when one can be mapped to the other by a sequence of rigid motions and dilations.</PromptBox>
+      <PromptBox>You've dilated the triangle. You've applied a rigid motion first, then dilated. Look at the original and the result — what do you notice about the angles? About the side lengths?</PromptBox>
 
       <p className="font-sans text-[13px] font-semibold text-[var(--lab-accent)] mt-[14px] mb-[6px]">Comparing angles</p>
       <p className="font-sans text-[11px] text-[var(--lab-text)] mb-[6px] leading-[1.4]">
